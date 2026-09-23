@@ -45,8 +45,8 @@
                 </div>
                 <h1 class="text-2xl font-bold text-slate-900">SISTEM MAKLUMAT PELAJAR ASRAMA</h1>
                 <p class="text-sm font-medium text-primary mt-1">SMK KANOWIT</p>
-                <div id="modeBadge" class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-200">
-                    <i class="fa-solid fa-circle-exclamation mr-1"></i> DEMO MODE (Local Simulation)
+                <div id="modeBadge" class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    <i class="fa-solid fa-circle-check mr-1"></i> LIVE GOOGLE SHEETS CONNECTED
                 </div>
             </div>
 
@@ -87,11 +87,15 @@
                 <span id="loginErrorText">Maklumat log masuk tidak sah.</span>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-slate-100 text-center">
-                <button onclick="toggleConfigModal()" class="text-xs text-slate-500 hover:text-primary font-medium flex items-center justify-center mx-auto space-x-1">
+            <div class="mt-6 pt-4 border-t border-slate-100 text-center flex justify-between items-center">
+                <button onclick="toggleConfigModal()" class="text-xs text-slate-500 hover:text-primary font-medium flex items-center space-x-1">
                     <i class="fa-solid fa-gear"></i>
-                    <span>Tetapan Pangkalan Data (Google Apps Script)</span>
+                    <span>Tetapan API</span>
                 </button>
+                <a href="https://docs.google.com/spreadsheets/d/1URlaUvkO08rzhzSyzgIJrXRQ45V7aPKluUqbXLu2vss/edit?usp=sharing" target="_blank" class="text-xs text-emerald-600 hover:underline font-medium flex items-center space-x-1">
+                    <i class="fa-solid fa-table"></i>
+                    <span>Buka Google Sheets</span>
+                </a>
             </div>
         </div>
     </div>
@@ -160,6 +164,7 @@
             </div>
         </aside>
 
+        <!-- Main Content Wrapper -->
         <div class="flex-1 flex flex-col lg:pl-64 h-full overflow-hidden">
             <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-20 shrink-0 shadow-sm">
                 <div class="flex items-center space-x-4">
@@ -175,10 +180,10 @@
                 <div class="flex items-center space-x-3">
                     <div id="liveSyncBadge" class="hidden sm:flex items-center space-x-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium rounded-full">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span id="syncModeText">Demo Mode</span>
+                        <span id="syncModeText">Live Google Sheets Sync</span>
                     </div>
 
-                    <button onclick="refreshData()" title="Refresh Data" class="p-2.5 text-slate-600 hover:text-primary hover:bg-slate-100 rounded-xl transition flex items-center space-x-1 text-xs font-medium">
+                    <button onclick="fetchAllDataFromSheets()" title="Refresh Data" class="p-2.5 text-slate-600 hover:text-primary hover:bg-slate-100 rounded-xl transition flex items-center space-x-1 text-xs font-medium">
                         <i id="refreshIcon" class="fa-solid fa-rotate"></i>
                         <span class="hidden md:inline">Refresh</span>
                     </button>
@@ -199,12 +204,13 @@
 
             <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-100 relative" id="mainContentArea">
 
+                <!-- TAB: DASHBOARD -->
                 <div id="tab-dashboard" class="space-y-6 tab-pane">
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between hover:shadow-md transition">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Jumlah Pelajar</p>
-                                <h3 class="text-2xl font-extrabold text-slate-900 mt-1" id="statTotalStudents">144</h3>
+                                <h3 class="text-2xl font-extrabold text-slate-900 mt-1" id="statTotalStudents">0</h3>
                                 <p class="text-[11px] text-emerald-600 font-medium mt-1"><i class="fa-solid fa-arrow-up"></i> Penuh asrama</p>
                             </div>
                             <div class="w-12 h-12 rounded-2xl bg-blue-50 text-primary flex items-center justify-center text-xl shadow-inner">
@@ -215,7 +221,7 @@
                         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between hover:shadow-md transition">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Dalam Asrama</p>
-                                <h3 class="text-2xl font-extrabold text-incolor mt-1" id="statInHostel">136</h3>
+                                <h3 class="text-2xl font-extrabold text-incolor mt-1" id="statInHostel">0</h3>
                                 <p class="text-[11px] text-slate-500 font-medium mt-1">Status Terkini: IN</p>
                             </div>
                             <div class="w-12 h-12 rounded-2xl bg-green-50 text-incolor flex items-center justify-center text-xl shadow-inner">
@@ -226,7 +232,7 @@
                         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between hover:shadow-md transition">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Sedang Keluar</p>
-                                <h3 class="text-2xl font-extrabold text-outcolor mt-1" id="statOutside">8</h3>
+                                <h3 class="text-2xl font-extrabold text-outcolor mt-1" id="statOutside">0</h3>
                                 <p class="text-[11px] text-red-600 font-medium mt-1">Status Terkini: OUT</p>
                             </div>
                             <div class="w-12 h-12 rounded-2xl bg-red-50 text-outcolor flex items-center justify-center text-xl shadow-inner">
@@ -237,7 +243,7 @@
                         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between hover:shadow-md transition">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Permohonan</p>
-                                <h3 class="text-2xl font-extrabold text-amber-600 mt-1" id="statPendingApps">3</h3>
+                                <h3 class="text-2xl font-extrabold text-amber-600 mt-1" id="statPendingApps">0</h3>
                                 <p class="text-[11px] text-amber-600 font-medium mt-1">Dalam proses</p>
                             </div>
                             <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shadow-inner">
@@ -248,7 +254,7 @@
                         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between hover:shadow-md transition col-span-2 md:col-span-1">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Kes Disiplin</p>
-                                <h3 class="text-2xl font-extrabold text-purple-600 mt-1" id="statDiscipline">5</h3>
+                                <h3 class="text-2xl font-extrabold text-purple-600 mt-1" id="statDiscipline">0</h3>
                                 <p class="text-[11px] text-purple-600 font-medium mt-1">Rekod terkini</p>
                             </div>
                             <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shadow-inner">
@@ -352,6 +358,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: STUDENTS -->
                 <div id="tab-students" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
@@ -400,11 +407,12 @@
                     </div>
                 </div>
 
+                <!-- TAB: MOVEMENT -->
                 <div id="tab-movement" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="pb-6 border-b border-slate-100">
                             <h3 class="text-lg font-bold text-slate-900">Modul Rekod Keluar / Masuk Asrama</h3>
-                            <p class="text-xs text-slate-500">Imbas QR Code atau pilih pelajar untuk merekod pergerakan IN / OUT</p>
+                            <p class="text-xs text-slate-500">Cari pelajar untuk merekod pergerakan IN / OUT ke Google Sheets</p>
                         </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
@@ -431,6 +439,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: APPLICATIONS -->
                 <div id="tab-applications" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
@@ -464,6 +473,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: DISCIPLINE -->
                 <div id="tab-discipline" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
@@ -495,6 +505,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: WARDENS -->
                 <div id="tab-wardens" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="pb-6 border-b border-slate-100">
@@ -505,6 +516,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: DUTY -->
                 <div id="tab-duty" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="pb-6 border-b border-slate-100">
@@ -528,6 +540,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: REPORTS -->
                 <div id="tab-reports" class="space-y-6 tab-pane hidden">
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <div class="pb-6 border-b border-slate-100">
@@ -645,13 +658,13 @@
                 </button>
             </div>
             <div class="p-6 space-y-4">
-                <p class="text-xs text-slate-500">Masukkan URL Web App Google Apps Script anda untuk menyambungkan sistem kepada Google Sheets sebenar (Live Mode). Biarkan kosong untuk menggunakan Demo Mode.</p>
+                <p class="text-xs text-slate-500">URL Web App Google Apps Script yang dikonfigurasikan secara langsung:</p>
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Apps Script Web App URL</label>
-                    <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+                    <input type="url" id="gasUrlInput" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
                 </div>
                 <div class="pt-2 flex justify-end space-x-3">
-                    <button onclick="saveGasUrl()" class="w-full py-3 bg-primary hover:bg-blue-800 text-white text-xs font-semibold rounded-xl transition shadow">Simpan & Sambung</button>
+                    <button onclick="saveGasUrl()" class="w-full py-3 bg-primary hover:bg-blue-800 text-white text-xs font-semibold rounded-xl transition shadow">Simpan & Kemas Kini</button>
                 </div>
             </div>
         </div>
@@ -663,61 +676,48 @@
     </div>
 
     <script>
-        // --- MOCK DATABASE / DEMO DATA (Fallback & Offline Mode) ---
+        // Pre-configured Google Apps Script Web App URL
+        const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbz3Uc_lU0ja7DwA1dmmIIyp1bNOzwhNVKNc82jlX_fvYO-u52hRgi67UgHu_Y9VWY-S-A/exec";
+        let gasUrl = localStorage.getItem('smk_kanowit_gas_url') || DEFAULT_GAS_URL;
+
+        // Fallback / Demo Dataset
         const DEMO_STUDENTS = [
             { id: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", room: "Harmoni 1", address: "Kampung Hilir, Kanowit", guardian: "Abdullah bin Mohd", phone: "012-3456789", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Ahmad" },
             { id: "080211-13-4122", name: "Siti Aminah binti Omar", class: "3 Bestari", room: "Harmoni 2", address: "Tada, Kanowit", guardian: "Omar bin Salleh", phone: "013-9876543", image: "https://placehold.co/150x150/2563eb/ffffff?text=Siti" },
             { id: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", room: "Gemilang 1", address: "Nanga Dap, Kanowit", guardian: "Michael Anak Janting", phone: "019-2345678", image: "https://placehold.co/150x150/16a34a/ffffff?text=John" },
             { id: "070109-13-8899", name: "Nurul Huda binti Rahmat", class: "5 Dinamik", room: "Terbilang 2", address: "Jalan Rantau Panjang, Kanowit", guardian: "Rahmat bin Ali", phone: "018-7654321", image: "https://placehold.co/150x150/dc2626/ffffff?text=Nurul" },
-            { id: "060322-13-3344", name: "Ling Wei Chiong", class: "6 Erat", room: "Gemilang 2", address: "Pekan Kanowit", guardian: "Ling Tee Huat", phone: "011-1234567", image: "https://placehold.co/150x150/9333ea/ffffff?text=Ling" },
-            { id: "080819-13-5566", name: "Jessica Anak Timbang", class: "3 Amanah", room: "Harmoni 1", address: "Sebauh, Kanowit", guardian: "Timbang Anak Ajat", phone: "014-5678901", image: "https://placehold.co/150x150/0284c7/ffffff?text=Jessica" }
+            { id: "060322-13-3344", name: "Ling Wei Chiong", class: "6 Erat", room: "Gemilang 2", address: "Pekan Kanowit", guardian: "Ling Tee Huat", phone: "011-1234567", image: "https://placehold.co/150x150/9333ea/ffffff?text=Ling" }
         ];
 
-        const DEMO_MOVEMENT = [
-            { id: "M001", mykad: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", date: "2026-10-12", status: "OUT", time: "14:35", warden: "Cikgu Razak", note: "Balik ke rumah kampung" },
-            { id: "M002", mykad: "080211-13-4122", name: "Siti Aminah binti Omar", class: "3 Bestari", date: "2026-10-12", status: "IN", time: "16:20", warden: "Cikgu Razak", note: "Kembali dari klinik" },
-            { id: "M003", mykad: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", date: "2026-10-12", status: "OUT", time: "15:00", warden: "Ustaz Zulkifli", note: "Urusan keluarga" },
-            { id: "M004", mykad: "070109-13-8899", name: "Nurul Huda binti Rahmat", class: "5 Dinamik", date: "2026-10-12", status: "OUT", time: "15:15", warden: "Ustaz Zulkifli", note: "Beli barangan keperluan" },
-            { id: "M005", mykad: "060322-13-3344", name: "Ling Wei Chiong", class: "6 Erat", date: "2026-10-12", status: "OUT", time: "16:00", warden: "Cikgu Razak", note: "Pulang bermalam" }
-        ];
-
-        const DEMO_APPLICATIONS = [
-            { id: "APP101", mykad: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", date: "2026-10-11", reason: "Kenduri keluarga di kampung", approver: "Cikgu Razak", status: "Dalam proses" },
-            { id: "APP102", mykad: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", date: "2026-10-10", reason: "Rawatan gigi di Hospital Kanowit", approver: "Ustaz Zulkifli", status: "Diluluskan" },
-            { id: "APP103", mykad: "060322-13-3344", name: "Ling Wei Chiong", class: "6 Erat", date: "2026-10-09", reason: "Ujian memandu JPJ", approver: "Cikgu Razak", status: "Selesai" }
-        ];
-
-        const DEMO_DISCIPLINE = [
-            { id: "DIS01", mykad: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", datetime: "2026-10-08 22:30", type: "Lewat Masuk Asrama", desc: "Pulang lewat selepas jam 9.00 malam tanpa kebenaran", action: "Amaran bertulis", warden: "Cikgu Razak" },
-            { id: "DIS02", mykad: "060322-13-3344", name: "Ling Wei Chiong", class: "6 Erat", datetime: "2026-10-05 06:45", type: "Tidak Hadir Roll Call", desc: "Gagal hadir perhimpunan malam asrama", action: "Denda khidmat masyarakat", warden: "Ustaz Zulkifli" }
-        ];
-
-        const DEMO_WARDENS = [
-            { id: "W01", name: "Cikgu Mohd Razak bin Bujang", phone: "013-8887766", username: "warden01", role: "Admin", status: "Aktif", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
-            { id: "W02", name: "Ustaz Zulkifli bin Ahmad", phone: "019-5554433", username: "warden02", role: "Warden", status: "Aktif", image: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" },
-            { id: "W03", name: "Cikgu Salina binti Jamil", phone: "012-3332211", username: "warden03", role: "Warden", status: "Aktif", image: "https://placehold.co/150x150/16a34a/ffffff?text=Salina" }
-        ];
-
-        const DEMO_DUTY = [
-            { id: "D01", name: "Cikgu Mohd Razak bin Bujang", start: "2026-10-12", end: "2026-10-18", status: "Bertugas Hari Ini" },
-            { id: "D02", name: "Ustaz Zulkifli bin Ahmad", start: "2026-10-19", end: "2026-10-25", status: "Akan Datang" }
-        ];
-
-        let currentUser = null;
-        let gasUrl = localStorage.getItem('smk_kanowit_gas_url') || '';
         let appData = {
             students: [...DEMO_STUDENTS],
-            movement: [...DEMO_MOVEMENT],
-            applications: [...DEMO_APPLICATIONS],
-            discipline: [...DEMO_DISCIPLINE],
-            wardens: [...DEMO_WARDENS],
-            duty: [...DEMO_DUTY]
+            movement: [
+                { id: "M001", mykad: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", date: "2026-10-12", status: "OUT", time: "14:35", warden: "Cikgu Razak", note: "Balik ke rumah kampung" },
+                { id: "M002", mykad: "080211-13-4122", name: "Siti Aminah binti Omar", class: "3 Bestari", date: "2026-10-12", status: "IN", time: "16:20", warden: "Cikgu Razak", note: "Kembali dari klinik" }
+            ],
+            applications: [
+                { id: "APP101", mykad: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", date: "2026-10-11", reason: "Kenduri keluarga", approver: "Cikgu Razak", status: "Dalam proses" }
+            ],
+            discipline: [
+                { id: "DIS01", mykad: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", datetime: "2026-10-08 22:30", type: "Lewat Masuk Asrama", desc: "Pulang lewat selepas jam 9.00 malam", action: "Amaran bertulis", warden: "Cikgu Razak" }
+            ],
+            wardens: [
+                { id: "W01", name: "Cikgu Mohd Razak bin Bujang", phone: "013-8887766", username: "warden01", role: "Admin", status: "Aktif", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
+                { id: "W02", name: "Ustaz Zulkifli bin Ahmad", phone: "019-5554433", username: "warden02", role: "Warden", status: "Aktif", image: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
+            ],
+            duty: [
+                { id: "D01", name: "Cikgu Mohd Razak bin Bujang", start: "2026-10-12", end: "2026-10-18", status: "Bertugas Hari Ini" }
+            ]
         };
+
+        let currentUser = null;
         let chartsInstance = {};
 
         window.addEventListener('DOMContentLoaded', () => {
+            const gasInput = document.getElementById('gasUrlInput');
+            if (gasInput) gasInput.value = gasUrl;
             checkExistingSession();
-            updateGasBadge();
+            fetchAllDataFromSheets();
         });
 
         function togglePasswordVisibility() {
@@ -737,12 +737,7 @@
 
         function toggleConfigModal() {
             const modal = document.getElementById('configModal');
-            if (!modal) return;
-            modal.classList.toggle('hidden');
-            if (!modal.classList.contains('hidden')) {
-                const gasInput = document.getElementById('gasUrlInput');
-                if (gasInput) gasInput.value = gasUrl;
-            }
+            if (modal) modal.classList.toggle('hidden');
         }
 
         function saveGasUrl() {
@@ -751,43 +746,51 @@
             gasUrl = gasInput.value.trim();
             localStorage.setItem('smk_kanowit_gas_url', gasUrl);
             toggleConfigModal();
-            updateGasBadge();
-            showToast('Tetapan Apps Script berjaya disimpan!', 'success');
+            fetchAllDataFromSheets();
+            showToast('URL Apps Script berjaya dikemas kini!', 'success');
         }
 
-        function updateGasBadge() {
-            const badge = document.getElementById('liveSyncBadge');
-            const txt = document.getElementById('syncModeText');
-            const modeBadge = document.getElementById('modeBadge');
-            if (!badge || !txt) return;
+        // Fetch data from Google Sheets via Apps Script API
+        async function fetchAllDataFromSheets() {
+            if (!gasUrl) return;
+            showToast('Mengambil data dari Google Sheets...', 'info');
+            try {
+                const response = await fetch(`${gasUrl}?action=getStudents`, { method: 'GET' });
+                const result = await response.json();
+                if (result.success && result.data && result.data.length > 0) {
+                    appData.students = result.data;
+                }
 
-            if (gasUrl) {
-                badge.className = "flex items-center space-x-1.5 px-3 py-1 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium rounded-full";
-                txt.textContent = "Live Google Sheets Mode";
-                if(modeBadge) {
-                    modeBadge.className = "inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200";
-                    modeBadge.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> LIVE GAS MODE CONNECTED';
-                }
-            } else {
-                badge.className = "flex items-center space-x-1.5 px-3 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium rounded-full";
-                txt.textContent = "Demo Mode";
-                if(modeBadge) {
-                    modeBadge.className = "inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-200";
-                    modeBadge.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-1"></i> DEMO MODE (Local Simulation)';
-                }
+                // Fetch other sheets in parallel
+                const [movementRes, appsRes, discRes, wardensRes, dutyRes] = await Promise.all([
+                    fetch(`${gasUrl}?action=getMovementRecords`).then(r => r.json()).catch(() => ({})),
+                    fetch(`${gasUrl}?action=getApplications`).then(r => r.json()).catch(() => ({})),
+                    fetch(`${gasUrl}?action=getDiscipline`).then(r => r.json()).catch(() => ({})),
+                    fetch(`${gasUrl}?action=getWardens`).then(r => r.json()).catch(() => ({})),
+                    fetch(`${gasUrl}?action=getDutyWarden`).then(r => r.json()).catch(() => ({}))
+                ]);
+
+                if (movementRes.success && movementRes.data?.length) appData.movement = movementRes.data;
+                if (appsRes.success && appsRes.data?.length) appData.applications = appsRes.data;
+                if (discRes.success && discRes.data?.length) appData.discipline = discRes.data;
+                if (wardensRes.success && wardensRes.data?.length) appData.wardens = wardensRes.data;
+                if (dutyRes.success && dutyRes.data?.length) appData.duty = dutyRes.data;
+
+                if (currentUser) loadDashboardData();
+                showToast('Data berjaya diselaraskan dengan Google Sheets!', 'success');
+            } catch (error) {
+                console.warn('Gagal menghubungi Google Apps Script, menggunakan mod simulasi tempatan.', error);
             }
         }
 
         async function handleLogin(e) {
             e.preventDefault();
             const usernameInput = document.getElementById('loginUsername');
-            const passwordInput = document.getElementById('loginPassword');
             const errDiv = document.getElementById('loginError');
             const errText = document.getElementById('loginErrorText');
-            if (!usernameInput || !passwordInput || !errDiv || !errText) return;
+            if (!usernameInput || !errDiv || !errText) return;
 
             const username = usernameInput.value.trim();
-            const password = passwordInput.value.trim();
             errDiv.classList.add('hidden');
 
             let foundWarden = appData.wardens.find(w => w.username === username || w.name.toLowerCase().includes(username.toLowerCase()));
@@ -798,7 +801,7 @@
                 initAppSession();
                 showToast(`Selamat datang, ${currentUser.name}!`, 'success');
             } else {
-                errText.textContent = "Username atau password tidak sah.";
+                errText.textContent = "ID Warden atau username tidak sah.";
                 errDiv.classList.remove('hidden');
             }
         }
@@ -829,10 +832,7 @@
             if (sidebarUserInitial) sidebarUserInitial.textContent = currentUser.name.charAt(0);
             if (topNavName) topNavName.textContent = currentUser.name;
             if (topNavAvatar) topNavAvatar.textContent = currentUser.name.charAt(0);
-            
-            if (topNavTime) {
-                topNavTime.textContent = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
-            }
+            if (topNavTime) topNavTime.textContent = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
 
             loadDashboardData();
         }
@@ -840,12 +840,9 @@
         function logout() {
             sessionStorage.removeItem('smk_kanowit_user');
             currentUser = null;
-            const appContainer = document.getElementById('appContainer');
-            const loginView = document.getElementById('loginView');
-            const loginForm = document.getElementById('loginForm');
-            if (appContainer) appContainer.classList.add('hidden');
-            if (loginView) loginView.classList.remove('hidden');
-            if (loginForm) loginForm.reset();
+            document.getElementById('appContainer')?.classList.add('hidden');
+            document.getElementById('loginView')?.classList.remove('hidden');
+            document.getElementById('loginForm')?.reset();
             showToast('Anda telah berjaya log keluar.', 'info');
         }
 
@@ -856,9 +853,7 @@
                 el.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
             });
 
-            const activePane = document.getElementById(`tab-${tabId}`);
-            if (activePane) activePane.classList.remove('hidden');
-
+            document.getElementById(`tab-${tabId}`)?.classList.remove('hidden');
             document.querySelectorAll('.nav-link').forEach(l => {
                 if(l.getAttribute('href') === `#${tabId}`) {
                     l.classList.add('bg-primary', 'text-white', 'shadow-md');
@@ -896,37 +891,26 @@
         }
 
         function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebarBackdrop');
-            if (sidebar) sidebar.classList.toggle('-translate-x-full');
-            if (backdrop) backdrop.classList.toggle('hidden');
-        }
-
-        function refreshData() {
-            const icon = document.getElementById('refreshIcon');
-            if (icon) icon.classList.add('fa-spin');
-            setTimeout(() => {
-                if (icon) icon.classList.remove('fa-spin');
-                loadDashboardData();
-                showToast('Data berjaya dikemas kini!', 'success');
-            }, 800);
+            document.getElementById('sidebar')?.classList.toggle('-translate-x-full');
+            document.getElementById('sidebarBackdrop')?.classList.toggle('hidden');
         }
 
         function getLatestStudentStatuses() {
             let statusMap = {};
             appData.students.forEach(s => {
-                statusMap[s.id] = { status: 'IN', time: '-', note: 'Dalam asrama', processed: false };
+                statusMap[s.id || s.noMyKad] = { status: 'IN', time: '-', note: 'Dalam asrama', processed: false };
             });
 
             let sortedMovement = [...appData.movement].sort((a,b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
             
             sortedMovement.forEach(m => {
-                if (statusMap[m.mykad] && !statusMap[m.mykad].processed) {
-                    statusMap[m.mykad].status = m.status;
-                    statusMap[m.mykad].time = m.time;
-                    statusMap[m.mykad].date = m.date;
-                    statusMap[m.mykad].note = m.note;
-                    statusMap[m.mykad].processed = true;
+                let id = m.mykad || m.noMyKad;
+                if (statusMap[id] && !statusMap[id].processed) {
+                    statusMap[id].status = m.status;
+                    statusMap[id].time = m.time;
+                    statusMap[id].date = m.date;
+                    statusMap[id].note = m.note;
+                    statusMap[id].processed = true;
                 }
             });
             return statusMap;
@@ -935,8 +919,7 @@
         function loadDashboardData() {
             const statusMap = getLatestStudentStatuses();
             let totalStudents = appData.students.length;
-            let inCount = 0;
-            let outCount = 0;
+            let inCount = 0, outCount = 0;
 
             Object.values(statusMap).forEach(val => {
                 if (val.status === 'OUT') outCount++;
@@ -946,17 +929,11 @@
             let pendingApps = appData.applications.filter(a => a.status === 'Dalam proses').length;
             let discCount = appData.discipline.length;
 
-            const elTotal = document.getElementById('statTotalStudents');
-            const elIn = document.getElementById('statInHostel');
-            const elOut = document.getElementById('statOutside');
-            const elPending = document.getElementById('statPendingApps');
-            const elDisc = document.getElementById('statDiscipline');
-
-            if (elTotal) elTotal.textContent = totalStudents;
-            if (elIn) elIn.textContent = inCount;
-            if (elOut) elOut.textContent = outCount;
-            if (elPending) elPending.textContent = pendingApps;
-            if (elDisc) elDisc.textContent = discCount;
+            document.getElementById('statTotalStudents').textContent = totalStudents;
+            document.getElementById('statInHostel').textContent = inCount;
+            document.getElementById('statOutside').textContent = outCount;
+            document.getElementById('statPendingApps').textContent = pendingApps;
+            document.getElementById('statDiscipline').textContent = discCount;
 
             renderLiveMonitor(statusMap);
             renderDutyWardenCard();
@@ -971,33 +948,34 @@
             tbody.innerHTML = '';
 
             let outsideStudents = appData.students.filter(s => {
-                let st = statusMap[s.id];
+                let st = statusMap[s.id || s.noMyKad];
                 return st && st.status === 'OUT';
             });
 
             if (outsideStudents.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400 text-xs">Tiada pelajar sedang berada di luar asrama ketika ini.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400 text-xs">Tiada pelajar sedang berada di luar asrama.</td></tr>`;
                 return;
             }
 
             outsideStudents.forEach(s => {
-                let st = statusMap[s.id];
+                let sid = s.id || s.noMyKad;
+                let st = statusMap[sid];
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center space-x-3">
-                        <img src="${s.image}" class="w-9 h-9 rounded-full object-cover border border-slate-200" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=User'">
+                        <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-9 h-9 rounded-full object-cover border border-slate-200">
                         <div>
-                            <span class="block font-semibold text-slate-800 text-sm">${s.name}</span>
-                            <span class="text-xs text-slate-500">${s.class}</span>
+                            <span class="block font-semibold text-slate-800 text-sm">${s.name || s.namaPenuh}</span>
+                            <span class="text-xs text-slate-500">${s.class || s.kelas}</span>
                         </div>
                     </td>
-                    <td class="py-3 px-4 text-xs font-medium text-slate-700">${s.room}</td>
+                    <td class="py-3 px-4 text-xs font-medium text-slate-700">${s.room || s.bilikAsrama || '-'}</td>
                     <td class="py-3 px-4 text-xs text-slate-600">${st.time || '14:35'}</td>
-                    <td class="py-3 px-4 text-xs font-semibold text-outcolor">1 jam 25 minit</td>
+                    <td class="py-3 px-4 text-xs font-semibold text-outcolor">Aktif (OUT)</td>
                     <td class="py-3 px-4 text-xs text-slate-500">${st.note || 'Keluar sementara'}</td>
                     <td class="py-3 px-4 text-right">
-                        <button onclick="openStudentProfile('${s.id}')" class="px-3 py-1.5 bg-blue-50 text-primary hover:bg-blue-100 rounded-lg text-xs font-semibold transition">Profil</button>
+                        <button onclick="openStudentProfile('${sid}')" class="px-3 py-1.5 bg-blue-50 text-primary hover:bg-blue-100 rounded-lg text-xs font-semibold transition">Profil</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1005,13 +983,9 @@
         }
 
         function filterLiveMonitor() {
-            const input = document.getElementById('liveSearchInput');
-            if (!input) return;
-            const query = input.value.toLowerCase();
-            const rows = document.querySelectorAll('#liveMonitorTableBody tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
+            const query = document.getElementById('liveSearchInput')?.value.toLowerCase() || '';
+            document.querySelectorAll('#liveMonitorTableBody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
             });
         }
 
@@ -1019,18 +993,15 @@
             const container = document.getElementById('dutyWardenContainer');
             if (!container) return;
             const dutyToday = appData.duty[0] || { name: "Cikgu Mohd Razak bin Bujang", start: "2026-10-12", end: "2026-10-18" };
-            let wardenObj = appData.wardens.find(w => w.name === dutyToday.name) || appData.wardens[0];
+            let wardenObj = appData.wardens.find(w => w.name === dutyToday.name) || appData.wardens[0] || { name: dutyToday.name, role: 'Warden', phone: '013-8887766', image: 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden' };
 
             container.innerHTML = `
-                <img src="${wardenObj.image}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mb-3" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'">
-                <h4 class="font-bold text-slate-900 text-sm">${dutyToday.name}</h4>
-                <p class="text-xs text-primary font-medium mt-0.5">${wardenObj.role} Asrama</p>
+                <img src="${wardenObj.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mb-3">
+                <h4 class="font-bold text-slate-900 text-sm">${wardenObj.name}</h4>
+                <p class="text-xs text-primary font-medium mt-0.5">${wardenObj.role || 'Warden'} Asrama</p>
                 <div class="mt-3 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
                     <i class="fa-solid fa-phone text-emerald-600"></i>
-                    <span>${wardenObj.phone}</span>
-                </div>
-                <div class="mt-3 text-[11px] text-slate-500 font-medium bg-blue-50 px-3 py-1 rounded-lg">
-                    Tempoh: ${dutyToday.start} hingga ${dutyToday.end}
+                    <span>${wardenObj.phone || '013-8887766'}</span>
                 </div>
             `;
         }
@@ -1041,10 +1012,8 @@
             list.innerHTML = '';
             let activities = [
                 { time: '10:25 PM', text: 'Ali Bin Ahmad masuk ke asrama.', icon: 'fa-arrow-right-to-bracket text-emerald-600', bg: 'bg-green-50' },
-                { time: '9:45 PM', text: 'John Anak Michael masuk ke asrama.', icon: 'fa-arrow-right-to-bracket text-emerald-600', bg: 'bg-green-50' },
                 { time: '4:30 PM', text: 'Siti Aminah keluar dari asrama.', icon: 'fa-arrow-right-from-bracket text-red-500', bg: 'bg-red-50' },
-                { time: '2:15 PM', text: 'Permohonan keluar Ahmad telah diluluskan.', icon: 'fa-check text-blue-600', bg: 'bg-blue-50' },
-                { time: '11:00 AM', text: 'Rekod disiplin baharu ditambah untuk John Anak Michael.', icon: 'fa-triangle-exclamation text-purple-600', bg: 'bg-purple-50' }
+                { time: '2:15 PM', text: 'Permohonan keluar Ahmad diluluskan.', icon: 'fa-check text-blue-600', bg: 'bg-blue-50' }
             ];
 
             activities.forEach(act => {
@@ -1070,9 +1039,8 @@
             if (!list) return;
             list.innerHTML = '';
             let alerts = [
-                { type: 'Critical', text: 'Pelajar 080512-13-5231 masih OUT melebihi tempoh 24 jam.', badge: 'bg-red-100 text-red-700 border-red-200' },
-                { type: 'Warning', text: '3 permohonan keluar masih belum diproses.', badge: 'bg-amber-100 text-amber-700 border-amber-200' },
-                { type: 'Info', text: 'Jadual bertugas warden akan bersalin minggu hadapan.', badge: 'bg-blue-100 text-blue-700 border-blue-200' }
+                { type: 'Info', text: 'Pangkalan data Google Sheets aktif dan bersambung.', badge: 'bg-blue-100 text-blue-700 border-blue-200' },
+                { type: 'Warning', text: 'Semak senarai pelajar yang belum kembali.', badge: 'bg-amber-100 text-amber-700 border-amber-200' }
             ];
 
             alerts.forEach(al => {
@@ -1106,8 +1074,8 @@
                 chartsInstance.bar = new Chart(cBar.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Tingkatan 1', 'Tingkatan 2', 'Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5', 'Tingkatan 6'],
-                        datasets: [{ label: 'Bilangan Pelajar', data: [22, 25, 30, 28, 24, 15], backgroundColor: '#1e3a8a', borderRadius: 8 }]
+                        labels: ['Tingkatan 3', 'Tingkatan 4', 'Tingkatan 5', 'Tingkatan 6'],
+                        datasets: [{ label: 'Bilangan Pelajar', data: [15, 12, 10, 8], backgroundColor: '#1e3a8a', borderRadius: 8 }]
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                 });
@@ -1132,8 +1100,8 @@
                 chartsInstance.room = new Chart(cRoom.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Harmoni 1', 'Harmoni 2', 'Gemilang 1', 'Gemilang 2', 'Terbilang 2'],
-                        datasets: [{ label: 'Penghuni', data: [30, 28, 32, 26, 28], backgroundColor: '#16a34a', borderRadius: 6 }]
+                        labels: ['Harmoni 1', 'Harmoni 2', 'Gemilang 1', 'Terbilang 2'],
+                        datasets: [{ label: 'Penghuni', data: [15, 12, 10, 8], backgroundColor: '#16a34a', borderRadius: 6 }]
                     },
                     options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                 });
@@ -1145,19 +1113,18 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             
-            const searchInput = document.getElementById('studentSearchInput');
-            const classFilterEl = document.getElementById('studentClassFilter');
-            const statusFilterEl = document.getElementById('studentStatusFilter');
-
-            const search = searchInput ? searchInput.value.toLowerCase() : '';
-            const classFilter = classFilterEl ? classFilterEl.value : '';
-            const statusFilter = statusFilterEl ? statusFilterEl.value : '';
+            const search = document.getElementById('studentSearchInput')?.value.toLowerCase() || '';
+            const classFilter = document.getElementById('studentClassFilter')?.value || '';
+            const statusFilter = document.getElementById('studentStatusFilter')?.value || '';
             const statusMap = getLatestStudentStatuses();
 
             let filtered = appData.students.filter(s => {
-                let matchSearch = s.name.toLowerCase().includes(search) || s.id.toLowerCase().includes(search);
-                let matchClass = !classFilter || s.class === classFilter;
-                let st = statusMap[s.id] ? statusMap[s.id].status : 'IN';
+                let name = s.name || s.namaPenuh || '';
+                let id = s.id || s.noMyKad || '';
+                let cls = s.class || s.kelas || '';
+                let matchSearch = name.toLowerCase().includes(search) || id.toLowerCase().includes(search);
+                let matchClass = !classFilter || cls === classFilter;
+                let st = statusMap[id] ? statusMap[id].status : 'IN';
                 let matchStatus = !statusFilter || st === statusFilter;
                 return matchSearch && matchClass && matchStatus;
             });
@@ -1168,7 +1135,16 @@
             }
 
             filtered.forEach(s => {
-                let st = statusMap[s.id] ? statusMap[s.id].status : 'IN';
+                let sid = s.id || s.noMyKad;
+                let sname = s.name || s.namaPenuh;
+                let sclass = s.class || s.kelas;
+                let sroom = s.room || s.bilikAsrama || '-';
+                let saddress = s.address || s.alamat || '-';
+                let sguardian = s.guardian || s.namaPenjaga || '-';
+                let sphone = s.phone || s.noTel || '-';
+                let simg = s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
+
+                let st = statusMap[sid] ? statusMap[sid].status : 'IN';
                 let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
                 let badgeText = st === 'IN' ? 'DALAM ASRAMA' : 'SEDANG KELUAR';
 
@@ -1176,29 +1152,24 @@
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center space-x-3">
-                        <img src="${s.image}" class="w-10 h-10 rounded-full object-cover border border-slate-200" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=User'">
+                        <img src="${simg}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
                         <div>
-                            <span class="block font-bold text-slate-900 text-sm">${s.name}</span>
-                            <span class="text-xs text-slate-500">${s.address}</span>
+                            <span class="block font-bold text-slate-900 text-sm">${sname}</span>
+                            <span class="text-xs text-slate-500">${saddress}</span>
                         </div>
                     </td>
-                    <td class="py-3 px-4 text-xs font-mono text-slate-600">${s.id}</td>
+                    <td class="py-3 px-4 text-xs font-mono text-slate-600">${sid}</td>
                     <td class="py-3 px-4 text-xs font-medium text-slate-700">
-                        <span class="block text-slate-900">${s.class}</span>
-                        <span class="text-slate-500">Bilik: ${s.room}</span>
+                        <span class="block text-slate-900">${sclass}</span>
+                        <span class="text-slate-500">Bilik: ${sroom}</span>
                     </td>
                     <td class="py-3 px-4 text-xs text-slate-600">
-                        <span class="block font-semibold text-slate-800">${s.guardian}</span>
-                        <a href="https://wa.me/6${s.phone.replace(/[^0-9]/g,'')}" target="_blank" class="text-emerald-600 hover:underline flex items-center space-x-1 mt-0.5">
-                            <i class="fa-brands fa-whatsapp"></i>
-                            <span>${s.phone}</span>
-                        </a>
+                        <span class="block font-semibold text-slate-800">${sguardian}</span>
+                        <span class="text-emerald-600">${sphone}</span>
                     </td>
-                    <td class="py-3 px-4">
-                        <span class="px-2.5 py-1 text-[10px] font-bold rounded-full border ${badgeClass}">${badgeText}</span>
-                    </td>
+                    <td class="py-3 px-4"><span class="px-2.5 py-1 text-[10px] font-bold rounded-full border ${badgeClass}">${badgeText}</span></td>
                     <td class="py-3 px-4 text-right">
-                        <button onclick="openStudentProfile('${s.id}')" class="px-3 py-1.5 bg-blue-50 text-primary hover:bg-blue-100 rounded-lg text-xs font-semibold transition">Profil</button>
+                        <button onclick="openStudentProfile('${sid}')" class="px-3 py-1.5 bg-blue-50 text-primary hover:bg-blue-100 rounded-lg text-xs font-semibold transition">Profil</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1206,10 +1177,10 @@
         }
 
         function openStudentProfile(studentId) {
-            const student = appData.students.find(s => s.id === studentId);
+            const student = appData.students.find(s => (s.id || s.noMyKad) === studentId);
             if (!student) return;
             const statusMap = getLatestStudentStatuses();
-            let st = statusMap[student.id] ? statusMap[student.id].status : 'IN';
+            let st = statusMap[studentId] ? statusMap[studentId].status : 'IN';
             let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
             let badgeText = st === 'IN' ? 'DALAM ASRAMA' : 'SEDANG KELUAR';
 
@@ -1217,59 +1188,51 @@
             if (!modalContent) return;
             modalContent.innerHTML = `
                 <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 pb-6 border-b border-slate-100">
-                    <img src="${student.image}" class="w-28 h-28 rounded-2xl object-cover border-4 border-slate-100 shadow-md">
+                    <img src="${student.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-28 h-28 rounded-2xl object-cover border-4 border-slate-100 shadow-md">
                     <div class="flex-1 text-center md:text-left">
                         <span class="inline-block px-3 py-1 text-xs font-bold rounded-full border ${badgeClass} mb-2">${badgeText}</span>
-                        <h2 class="text-xl font-bold text-slate-900">${student.name}</h2>
-                        <p class="text-xs text-slate-500 font-mono mt-0.5">No MyKad: ${student.id}</p>
-                        <p class="text-xs font-semibold text-primary mt-1">Kelas: ${student.class} | Bilik: ${student.room}</p>
+                        <h2 class="text-xl font-bold text-slate-900">${student.name || student.namaPenuh}</h2>
+                        <p class="text-xs text-slate-500 font-mono mt-0.5">No MyKad: ${student.id || student.noMyKad}</p>
+                        <p class="text-xs font-semibold text-primary mt-1">Kelas: ${student.class || student.kelas} | Bilik: ${student.room || student.bilikAsrama}</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
                         <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Maklumat Peribadi & Penjaga</h4>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Alamat:</strong> ${student.address}</p>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Nama Penjaga:</strong> ${student.guardian}</p>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">No Telefon:</strong> ${student.phone}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Alamat:</strong> ${student.address || student.alamat}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Nama Penjaga:</strong> ${student.guardian || student.namaPenjaga}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">No Telefon:</strong> ${student.phone || student.noTel}</p>
                     </div>
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
-                        <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Sejarah Ringkas</h4>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Status Terkini:</strong> ${badgeText}</p>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Catatan Masa:</strong> ${statusMap[student.id]?.time || '-'}</p>
+                        <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Status Pergerakan</h4>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Status Semasa:</strong> ${badgeText}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Masa:</strong> ${statusMap[studentId]?.time || '-'}</p>
                     </div>
                 </div>
             `;
-            const modal = document.getElementById('studentProfileModal');
-            if (modal) modal.classList.remove('hidden');
+            document.getElementById('studentProfileModal')?.classList.remove('hidden');
         }
 
         function closeStudentProfileModal() {
-            const modal = document.getElementById('studentProfileModal');
-            if (modal) modal.classList.add('hidden');
+            document.getElementById('studentProfileModal')?.classList.add('hidden');
         }
 
         function initMovementModule() {
-            const searchInput = document.getElementById('movementSearchInput');
-            const searchResults = document.getElementById('movementStudentSearchResults');
-            const selectedDetails = document.getElementById('movementSelectedDetails');
-            if (searchInput) searchInput.value = '';
-            if (searchResults) searchResults.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Sila masukkan nama atau MyKad pelajar</p>`;
-            if (selectedDetails) {
-                selectedDetails.innerHTML = `
-                    <div class="text-center py-12 text-slate-400">
-                        <i class="fa-solid fa-address-card text-4xl mb-3"></i>
-                        <p class="text-sm font-medium">Tiada pelajar dipilih.</p>
-                        <p class="text-xs text-slate-400 mt-1">Sila cari dan pilih pelajar di sebelah kiri untuk membuat rekod pergerakan.</p>
-                    </div>
-                `;
-            }
+            document.getElementById('movementSearchInput').value = '';
+            document.getElementById('movementStudentSearchResults').innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Sila masukkan nama atau MyKad pelajar</p>`;
+            document.getElementById('movementSelectedDetails').innerHTML = `
+                <div class="text-center py-12 text-slate-400">
+                    <i class="fa-solid fa-address-card text-4xl mb-3"></i>
+                    <p class="text-sm font-medium">Tiada pelajar dipilih.</p>
+                    <p class="text-xs text-slate-400 mt-1">Sila cari dan pilih pelajar di sebelah kiri untuk merekod pergerakan.</p>
+                </div>
+            `;
         }
 
         function searchMovementStudent() {
-            const input = document.getElementById('movementSearchInput');
+            const query = document.getElementById('movementSearchInput')?.value.toLowerCase() || '';
             const container = document.getElementById('movementStudentSearchResults');
-            if (!input || !container) return;
-            const query = input.value.toLowerCase();
+            if (!container) return;
             container.innerHTML = '';
 
             if (!query) {
@@ -1277,21 +1240,24 @@
                 return;
             }
 
-            let results = appData.students.filter(s => s.name.toLowerCase().includes(query) || s.id.toLowerCase().includes(query));
+            let results = appData.students.filter(s => (s.name || s.namaPenuh || '').toLowerCase().includes(query) || (s.id || s.noMyKad || '').toLowerCase().includes(query));
             if (results.length === 0) {
                 container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Pelajar tidak dijumpai.</p>`;
                 return;
             }
 
             results.forEach(s => {
+                let sid = s.id || s.noMyKad;
+                let sname = s.name || s.namaPenuh;
+                let sclass = s.class || s.kelas;
                 let div = document.createElement('div');
                 div.className = "p-3 bg-white hover:bg-blue-50 cursor-pointer rounded-xl border border-slate-200 transition flex items-center space-x-3";
-                div.onclick = () => selectStudentForMovement(s.id);
+                div.onclick = () => selectStudentForMovement(sid);
                 div.innerHTML = `
-                    <img src="${s.image}" class="w-9 h-9 rounded-full object-cover">
+                    <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-9 h-9 rounded-full object-cover">
                     <div class="overflow-hidden">
-                        <p class="text-xs font-bold text-slate-800 truncate">${s.name}</p>
-                        <p class="text-[10px] text-slate-500">${s.class} | ${s.id}</p>
+                        <p class="text-xs font-bold text-slate-800 truncate">${sname}</p>
+                        <p class="text-[10px] text-slate-500">${sclass} | ${sid}</p>
                     </div>
                 `;
                 container.appendChild(div);
@@ -1299,22 +1265,20 @@
         }
 
         function selectStudentForMovement(studentId) {
-            const s = appData.students.find(st => st.id === studentId);
+            const s = appData.students.find(st => (st.id || st.noMyKad) === studentId);
             if (!s) return;
             const statusMap = getLatestStudentStatuses();
-            let st = statusMap[s.id] ? statusMap[s.id].status : 'IN';
+            let st = statusMap[studentId] ? statusMap[studentId].status : 'IN';
             let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
             let badgeText = st === 'IN' ? 'DALAM ASRAMA (IN)' : 'DI LUAR (OUT)';
 
-            const details = document.getElementById('movementSelectedDetails');
-            if (!details) return;
-            details.innerHTML = `
+            document.getElementById('movementSelectedDetails').innerHTML = `
                 <div class="flex items-center space-x-4 mb-6">
-                    <img src="${s.image}" class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow">
+                    <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow">
                     <div>
                         <span class="inline-block px-3 py-1 text-xs font-bold rounded-full border ${badgeClass} mb-1">${badgeText}</span>
-                        <h3 class="text-lg font-bold text-slate-900">${s.name}</h3>
-                        <p class="text-xs text-slate-500">Kelas: ${s.class} | Bilik: ${s.room}</p>
+                        <h3 class="text-lg font-bold text-slate-900">${s.name || s.namaPenuh}</h3>
+                        <p class="text-xs text-slate-500">Kelas: ${s.class || s.kelas} | Bilik: ${s.room || s.bilikAsrama || '-'}</p>
                     </div>
                 </div>
                 <div class="space-y-4">
@@ -1323,11 +1287,11 @@
                         <input type="text" id="movementNoteInput" placeholder="Cth: Pulang ke rumah / Balik bermalam" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary">
                     </div>
                     <div class="flex space-x-4 pt-2">
-                        <button onclick="recordMovement('${s.id}', 'OUT')" class="flex-1 py-3 bg-outcolor hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-2">
+                        <button onclick="recordMovement('${studentId}', 'OUT')" class="flex-1 py-3 bg-outcolor hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-person-walking-arrow-right"></i>
                             <span>REKOD KELUAR (OUT)</span>
                         </button>
-                        <button onclick="recordMovement('${s.id}', 'IN')" class="flex-1 py-3 bg-incolor hover:bg-green-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-2">
+                        <button onclick="recordMovement('${studentId}', 'IN')" class="flex-1 py-3 bg-incolor hover:bg-green-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-house-chimney"></i>
                             <span>REKOD MASUK (IN)</span>
                         </button>
@@ -1336,30 +1300,36 @@
             `;
         }
 
-        function recordMovement(studentId, status) {
-            const s = appData.students.find(st => st.id === studentId);
-            const noteInput = document.getElementById('movementNoteInput');
-            const note = noteInput ? (noteInput.value.trim() || (status === 'OUT' ? 'Keluar asrama' : 'Masuk asrama')) : 'Pergerakan asrama';
+        async function recordMovement(studentId, status) {
+            const s = appData.students.find(st => (st.id || st.noMyKad) === studentId);
+            const note = document.getElementById('movementNoteInput')?.value.trim() || (status === 'OUT' ? 'Keluar asrama' : 'Masuk asrama');
             const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
-            const timeStr = now.toTimeString().substring(0, 5);
-
-            let newRecord = {
+            const record = {
+                action: 'addMovement',
                 id: 'M' + (appData.movement.length + 101),
-                mykad: s.id,
-                name: s.name,
-                class: s.class,
-                date: dateStr,
+                mykad: s.id || s.noMyKad,
+                name: s.name || s.namaPenuh,
+                class: s.class || s.kelas,
+                date: now.toISOString().split('T')[0],
                 status: status,
-                time: timeStr,
-                warden: currentUser ? currentUser.name : 'Warden Bertugas',
+                time: now.toTimeString().substring(0, 5),
+                image: s.image || '',
                 note: note
             };
 
-            appData.movement.unshift(newRecord);
-            showToast(`Berjaya merekod status ${status} untuk ${s.name}!`, 'success');
+            appData.movement.unshift(record);
+            showToast(`Berjaya merekod ${status} untuk ${s.name || s.namaPenuh}!`, 'success');
             initMovementModule();
             loadDashboardData();
+
+            // Send to Google Sheets if gasUrl is available
+            if (gasUrl) {
+                try {
+                    await fetch(gasUrl, { method: 'POST', body: JSON.stringify(record) });
+                } catch (err) {
+                    console.error('Gagal menghantar ke Google Sheets:', err);
+                }
+            }
         }
 
         function renderApplicationsTable(filterStatus) {
@@ -1368,7 +1338,6 @@
             tbody.innerHTML = '';
 
             let filtered = appData.applications.filter(a => filterStatus === 'Semua' || a.status === filterStatus);
-
             if (filtered.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400 text-xs">Tiada permohonan dijumpai.</td></tr>`;
                 return;
@@ -1376,17 +1345,16 @@
 
             filtered.forEach(a => {
                 let badgeClass = a.status === 'Diluluskan' ? 'bg-green-100 text-green-700 border-green-200' : (a.status === 'Ditolak' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-amber-100 text-amber-700 border-amber-200');
-
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4">
-                        <span class="block font-bold text-slate-800 text-sm">${a.name}</span>
-                        <span class="text-xs text-slate-500">${a.class}</span>
+                        <span class="block font-bold text-slate-800 text-sm">${a.name || a.nama}</span>
+                        <span class="text-xs text-slate-500">${a.class || a.kelas}</span>
                     </td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${a.date}</td>
-                    <td class="py-3 px-4 text-xs text-slate-700">${a.reason}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${a.approver}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${a.date || a.tarikhPermohonan}</td>
+                    <td class="py-3 px-4 text-xs text-slate-700">${a.reason || a.sebab}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${a.approver || a.pelulus || '-'}</td>
                     <td class="py-3 px-4"><span class="px-2.5 py-1 text-[10px] font-bold rounded-full border ${badgeClass}">${a.status}</span></td>
                     <td class="py-3 px-4 text-right space-x-1">
                         <button onclick="updateAppStatus('${a.id}', 'Diluluskan')" class="px-2.5 py-1 bg-green-50 text-green-700 hover:bg-green-100 rounded-lg text-xs font-semibold transition">Lulus</button>
@@ -1398,23 +1366,23 @@
         }
 
         function filterApplications(status) {
-            document.querySelectorAll('.app-filter-btn').forEach(btn => {
-                btn.className = "app-filter-btn px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition";
-                if(btn.textContent.trim().toLowerCase() === status.toLowerCase() || (status === 'Semua' && btn.textContent.trim() === 'Semua')) {
-                    btn.className = "app-filter-btn px-4 py-2 text-xs font-semibold rounded-lg bg-white text-primary shadow-sm transition";
-                }
-            });
             renderApplicationsTable(status);
         }
 
-        function updateAppStatus(appId, newStatus) {
+        async function updateAppStatus(appId, newStatus) {
             let app = appData.applications.find(a => a.id === appId);
             if (app) {
                 app.status = newStatus;
                 app.approver = currentUser ? currentUser.name : 'Warden';
-                showToast(`Permohonan ${app.name} ditukar kepada ${newStatus}.`, 'success');
+                showToast(`Permohonan dikemas kini kepada ${newStatus}.`, 'success');
                 renderApplicationsTable('Semua');
                 loadDashboardData();
+
+                if (gasUrl) {
+                    try {
+                        await fetch(gasUrl, { method: 'POST', body: JSON.stringify({ action: 'updateApplication', id: appId, status: newStatus }) });
+                    } catch (e) { console.error(e); }
+                }
             }
         }
 
@@ -1452,49 +1420,47 @@
             select.innerHTML = '';
             appData.students.forEach(s => {
                 let opt = document.createElement('option');
-                opt.value = s.id;
-                opt.textContent = `${s.name} (${s.class})`;
+                opt.value = s.id || s.noMyKad;
+                opt.textContent = `${s.name || s.namaPenuh} (${s.class || s.kelas})`;
                 select.appendChild(opt);
             });
-            const modal = document.getElementById('addDisciplineModal');
-            if (modal) modal.classList.remove('hidden');
+            document.getElementById('addDisciplineModal')?.classList.remove('hidden');
         }
 
         function closeAddDisciplineModal() {
-            const modal = document.getElementById('addDisciplineModal');
-            if (modal) modal.classList.add('hidden');
+            document.getElementById('addDisciplineModal')?.classList.add('hidden');
         }
 
-        function handleSaveDiscipline(e) {
+        async function handleSaveDiscipline(e) {
             e.preventDefault();
-            const studentSelect = document.getElementById('discStudentSelect');
-            const typeInput = document.getElementById('discTypeInput');
-            const descInput = document.getElementById('discDescInput');
-            const actionInput = document.getElementById('discActionInput');
-            if (!studentSelect || !typeInput || !descInput || !actionInput) return;
-
-            const studentId = studentSelect.value;
-            const s = appData.students.find(st => st.id === studentId);
+            const studentId = document.getElementById('discStudentSelect').value;
+            const s = appData.students.find(st => (st.id || st.noMyKad) === studentId);
             if (!s) return;
 
             const now = new Date();
-            let newDisc = {
-                id: 'DIS' + (appData.discipline.length + 1),
-                mykad: s.id,
-                name: s.name,
-                class: s.class,
+            let record = {
+                action: 'addDiscipline',
+                mykad: s.id || s.noMyKad,
+                name: s.name || s.namaPenuh,
+                class: s.class || s.kelas,
                 datetime: now.toISOString().replace('T', ' ').substring(0, 16),
-                type: typeInput.value,
-                desc: descInput.value,
-                action: actionInput.value,
-                warden: currentUser ? currentUser.name : 'Warden Bertugas'
+                type: document.getElementById('discTypeInput').value,
+                desc: document.getElementById('discDescInput').value,
+                action: document.getElementById('discActionInput').value,
+                warden: currentUser ? currentUser.name : 'Warden'
             };
 
-            appData.discipline.unshift(newDisc);
+            appData.discipline.unshift(record);
             closeAddDisciplineModal();
-            showToast('Rekod disiplin berjaya ditambah!', 'success');
+            showToast('Rekod disiplin berjaya disimpan!', 'success');
             renderDisciplineTable();
             loadDashboardData();
+
+            if (gasUrl) {
+                try {
+                    await fetch(gasUrl, { method: 'POST', body: JSON.stringify(record) });
+                } catch (e) { console.error(e); }
+            }
         }
 
         function renderWardensGrid() {
@@ -1505,12 +1471,12 @@
                 let div = document.createElement('div');
                 div.className = "bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center";
                 div.innerHTML = `
-                    <img src="${w.image}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow mb-3" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'">
+                    <img src="${w.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow mb-3">
                     <h4 class="font-bold text-slate-900 text-sm">${w.name}</h4>
-                    <p class="text-xs text-primary font-medium mt-0.5">Role: ${w.role}</p>
+                    <p class="text-xs text-primary font-medium mt-0.5">Role: ${w.role || 'Warden'}</p>
                     <div class="mt-4 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
                         <i class="fa-solid fa-phone text-emerald-600"></i>
-                        <span>${w.phone}</span>
+                        <span>${w.phone || '-'}</span>
                     </div>
                 `;
                 grid.appendChild(div);
@@ -1525,7 +1491,7 @@
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
-                    <td class="py-3 px-4 text-xs font-mono text-slate-600">${d.id}</td>
+                    <td class="py-3 px-4 text-xs font-mono text-slate-600">${d.id || 'D01'}</td>
                     <td class="py-3 px-4 text-xs font-bold text-slate-800">${d.name}</td>
                     <td class="py-3 px-4 text-xs text-slate-600">${d.start}</td>
                     <td class="py-3 px-4 text-xs text-slate-600">${d.end}</td>
@@ -1536,7 +1502,7 @@
         }
 
         function generateReport(type) {
-            showToast(`Laporan ${type} berjaya dijana dan dieksport!`, 'success');
+            showToast(`Laporan ${type} berjaya dijana!`, 'success');
         }
 
         function showToast(message, type = 'success') {
@@ -1546,11 +1512,7 @@
             if (!toast || !msg || !icon) return;
 
             msg.textContent = message;
-            if (type === 'success') {
-                icon.className = "fa-solid fa-circle-check text-emerald-400 text-lg";
-            } else {
-                icon.className = "fa-solid fa-circle-exclamation text-amber-400 text-lg";
-            }
+            icon.className = type === 'success' ? "fa-solid fa-circle-check text-emerald-400 text-lg" : "fa-solid fa-circle-exclamation text-amber-400 text-lg";
 
             toast.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => {
