@@ -813,7 +813,7 @@
                 initAppSession();
                 showToast(`Selamat datang, ${currentUser.nama || currentUser.name || 'Warden'}!`, 'success');
             } else {
-                errText.textContent = "ID Warden atau username tidak sah."+username+foundWarden;
+                errText.textContent = "ID Warden atau username tidak sah."+username+appData.wardens.find(w => (w.LoginID);
                 errDiv.classList.remove('hidden');
             }
         }
