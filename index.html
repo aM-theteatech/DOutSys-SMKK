@@ -1131,7 +1131,7 @@
             }
         }
 
-        function renderStudentsTable() {
+      function renderStudentsTable() {
             const tbody = document.getElementById('studentsTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
@@ -1165,7 +1165,8 @@
                 let saddress = s.alamat || s.address || '-';
                 let sguardian = s.namapenjaga || s.penjaga || '-';
                 let sphone = s.notel || s.phone || '-';
-                let simg = s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
+                // Retrieve image link directly from sheet column 'gambar' (or fallback properties)
+                let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
                 let st = statusMap[sid] ? statusMap[sid].status : 'IN';
                 let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
@@ -1175,7 +1176,8 @@
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center space-x-3">
-                        <img src="${simg}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                        <!-- Small square frame with curved edges (rounded-xl) for student image from 'gambar' column -->
+                        <img src="${simg}" class="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm shrink-0" alt="Foto Pelajar">
                         <div>
                             <span class="block font-bold text-slate-900 text-sm">${sname}</span>
                             <span class="text-xs text-slate-500">${saddress}</span>
@@ -1213,12 +1215,13 @@
             let saddress = student.alamat || student.address;
             let sguardian = student.namapenjaga || student.penjaga;
             let sphone = student.notel || student.phone;
+            let simg = student.gambar || student.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
             const modalContent = document.getElementById('studentProfileContent');
             if (!modalContent) return;
             modalContent.innerHTML = `
                 <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 pb-6 border-b border-slate-100">
-                    <img src="${student.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-28 h-28 rounded-2xl object-cover border-4 border-slate-100 shadow-md">
+                    <img src="${simg}" class="w-28 h-28 rounded-2xl object-cover border-4 border-slate-100 shadow-md">
                     <div class="flex-1 text-center md:text-left">
                         <span class="inline-block px-3 py-1 text-xs font-bold rounded-full border ${badgeClass} mb-2">${badgeText}</span>
                         <h2 class="text-xl font-bold text-slate-900">${sname}</h2>
