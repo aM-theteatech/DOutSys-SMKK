@@ -796,14 +796,16 @@
         async function handleLogin(e) {
             e.preventDefault();
             const usernameInput = document.getElementById('loginUsername');
+            const passwordInput = document.getElementById('loginUsername');
             const errDiv = document.getElementById('loginError');
             const errText = document.getElementById('loginErrorText');
             if (!usernameInput || !errDiv || !errText) return;
 
             const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
             errDiv.classList.add('hidden');
 
-            let foundWarden = appData.wardens.find(w => (w.LoginID && w.LoginID.toUpperCase() === username) || (w.nama && w.nama.toLowerCase().includes(username)));
+            let foundWarden = appData.wardens.find(w => (w.LoginID === username) && (w.LoginPassword === password));
 
             if (foundWarden || username === 'admin' || username === 'warden01') {
                 currentUser = foundWarden || { nama: "Cikgu Mohd Razak", role: "Admin", username: username };
