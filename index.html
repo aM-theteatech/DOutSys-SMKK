@@ -803,7 +803,7 @@
             const username = usernameInput.value.trim().toLowerCase();
             errDiv.classList.add('hidden');
 
-            let foundWarden = appData.wardens.find(w => (w.LoginID && w.LoginID.toLowerCase() === username) || (w.nama && w.nama.toLowerCase().includes(username)));
+            let foundWarden = appData.wardens.find(w => (w.LoginID && w.LoginID.toUpperCase() === username) || (w.nama && w.nama.toLowerCase().includes(username)));
 
             if (foundWarden || username === 'admin' || username === 'warden01') {
                 currentUser = foundWarden || { nama: "Cikgu Mohd Razak", role: "Admin", username: username };
