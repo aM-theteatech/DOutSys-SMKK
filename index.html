@@ -595,6 +595,7 @@
         </div>
     </div>
 
+    <!-- Modals -->
     <div id="studentProfileModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-4">
         <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-6 py-4 bg-primary text-white flex items-center justify-between">
@@ -680,33 +681,33 @@
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbz3Uc_lU0ja7DwA1dmmIIyp1bNOzwhNVKNc82jlX_fvYO-u52hRgi67UgHu_Y9VWY-S-A/exec";
         let gasUrl = localStorage.getItem('smk_kanowit_gas_url') || DEFAULT_GAS_URL;
 
-        // Fallback / Demo Dataset
+        // Fallback / Demo Dataset mapped correctly to actual Sheet column headers
         const DEMO_STUDENTS = [
-            { id: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", room: "Harmoni 1", address: "Kampung Hilir, Kanowit", guardian: "Abdullah bin Mohd", phone: "012-3456789", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Ahmad" },
-            { id: "080211-13-4122", name: "Siti Aminah binti Omar", class: "3 Bestari", room: "Harmoni 2", address: "Tada, Kanowit", guardian: "Omar bin Salleh", phone: "013-9876543", image: "https://placehold.co/150x150/2563eb/ffffff?text=Siti" },
-            { id: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", room: "Gemilang 1", address: "Nanga Dap, Kanowit", guardian: "Michael Anak Janting", phone: "019-2345678", image: "https://placehold.co/150x150/16a34a/ffffff?text=John" },
-            { id: "070109-13-8899", name: "Nurul Huda binti Rahmat", class: "5 Dinamik", room: "Terbilang 2", address: "Jalan Rantau Panjang, Kanowit", guardian: "Rahmat bin Ali", phone: "018-7654321", image: "https://placehold.co/150x150/dc2626/ffffff?text=Nurul" },
-            { id: "060322-13-3344", name: "Ling Wei Chiong", class: "6 Erat", room: "Gemilang 2", address: "Pekan Kanowit", guardian: "Ling Tee Huat", phone: "011-1234567", image: "https://placehold.co/150x150/9333ea/ffffff?text=Ling" }
+            { mykad: "080512-13-5231", namapenuh: "Ahmad bin Abdullah", kelas: "3 Amanah", bilikasrama: "Harmoni 1", alamat: "Kampung Hilir, Kanowit", namapenjaga: "Abdullah bin Mohd", notel: "012-3456789", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Ahmad" },
+            { mykad: "080211-13-4122", namapenuh: "Siti Aminah binti Omar", kelas: "3 Bestari", bilikasrama: "Harmoni 2", alamat: "Tada, Kanowit", namapenjaga: "Omar bin Salleh", notel: "013-9876543", image: "https://placehold.co/150x150/2563eb/ffffff?text=Siti" },
+            { mykad: "070415-13-2211", namapenuh: "John Anak Michael", kelas: "4 Cemerlang", bilikasrama: "Gemilang 1", alamat: "Nanga Dap, Kanowit", namapenjaga: "Michael Anak Janting", notel: "019-2345678", image: "https://placehold.co/150x150/16a34a/ffffff?text=John" },
+            { mykad: "070109-13-8899", namapenuh: "Nurul Huda binti Rahmat", kelas: "5 Dinamik", bilikasrama: "Terbilang 2", alamat: "Jalan Rantau Panjang, Kanowit", namapenjaga: "Rahmat bin Ali", notel: "018-7654321", image: "https://placehold.co/150x150/dc2626/ffffff?text=Nurul" },
+            { mykad: "060322-13-3344", namapenuh: "Ling Wei Chiong", kelas: "6 Erat", bilikasrama: "Gemilang 2", alamat: "Pekan Kanowit", namapenjaga: "Ling Tee Huat", notel: "011-1234567", image: "https://placehold.co/150x150/9333ea/ffffff?text=Ling" }
         ];
 
         let appData = {
             students: [...DEMO_STUDENTS],
             movement: [
-                { id: "M001", mykad: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", date: "2026-10-12", status: "OUT", time: "14:35", warden: "Cikgu Razak", note: "Balik ke rumah kampung" },
-                { id: "M002", mykad: "080211-13-4122", name: "Siti Aminah binti Omar", class: "3 Bestari", date: "2026-10-12", status: "IN", time: "16:20", warden: "Cikgu Razak", note: "Kembali dari klinik" }
+                { id: "M001", mykad: "080512-13-5231", nama: "Ahmad bin Abdullah", kelas: "3 Amanah", tarikh: "2026-10-12", status: "OUT", masa: "14:35", catatan: "Balik ke rumah kampung" },
+                { id: "M002", mykad: "080211-13-4122", nama: "Siti Aminah binti Omar", kelas: "3 Bestari", tarikh: "2026-10-12", status: "IN", masa: "16:20", catatan: "Kembali dari klinik" }
             ],
             applications: [
-                { id: "APP101", mykad: "080512-13-5231", name: "Ahmad bin Abdullah", class: "3 Amanah", date: "2026-10-11", reason: "Kenduri keluarga", approver: "Cikgu Razak", status: "Dalam proses" }
+                { id: "APP101", mykad: "080512-13-5231", nama: "Ahmad bin Abdullah", kelas: "3 Amanah", tarikhpermohonan: "2026-10-11", sebab: "Kenduri keluarga", pelulus: "Cikgu Razak", status: "Dalam proses" }
             ],
             discipline: [
-                { id: "DIS01", mykad: "070415-13-2211", name: "John Anak Michael", class: "4 Cemerlang", datetime: "2026-10-08 22:30", type: "Lewat Masuk Asrama", desc: "Pulang lewat selepas jam 9.00 malam", action: "Amaran bertulis", warden: "Cikgu Razak" }
+                { idpelajar: "070415-13-2211", nama: "John Anak Michael", kelas: "4 Cemerlang", tarikhmasa: "2026-10-08 22:30", jeniskesalahan: "Lewat Masuk Asrama", keterangan: "Pulang lewat selepas jam 9.00 malam", tindakan: "Amaran bertulis", wardenbertugas: "Cikgu Razak" }
             ],
             wardens: [
-                { id: "W01", name: "Cikgu Mohd Razak bin Bujang", phone: "013-8887766", username: "warden01", role: "Admin", status: "Aktif", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
-                { id: "W02", name: "Ustaz Zulkifli bin Ahmad", phone: "019-5554433", username: "warden02", role: "Warden", status: "Aktif", image: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
+                { id: "W01", nama: "Cikgu Mohd Razak bin Bujang", notelefon: "013-8887766", username: "warden01", role: "Admin", statusakaun: "Aktif", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
+                { id: "W02", nama: "Ustaz Zulkifli bin Ahmad", notelefon: "019-5554433", username: "warden02", role: "Warden", statusakaun: "Aktif", image: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
             ],
             duty: [
-                { id: "D01", name: "Cikgu Mohd Razak bin Bujang", start: "2026-10-12", end: "2026-10-18", status: "Bertugas Hari Ini" }
+                { id: "D01", namawarden: "Cikgu Mohd Razak bin Bujang", tarikhmula: "2026-10-12", tarihkhtamat: "2026-10-18", status: "Bertugas Hari Ini" }
             ]
         };
 
@@ -750,18 +751,27 @@
             showToast('URL Apps Script berjaya dikemas kini!', 'success');
         }
 
-        // Fetch data from Google Sheets via Apps Script API
+        // Fetch data from Google Sheets via Apps Script API with property normalization
         async function fetchAllDataFromSheets() {
             if (!gasUrl) return;
             showToast('Mengambil data dari Google Sheets...', 'info');
             try {
+                // Helper to normalize keys (lowercase and remove spaces/symbols)
+                const normalizeObjKeys = (obj) => {
+                    let newObj = {};
+                    for (let key in obj) {
+                        let cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        newObj[cleanKey] = obj[key];
+                    }
+                    return newObj;
+                };
+
                 const response = await fetch(`${gasUrl}?action=getStudents`, { method: 'GET' });
                 const result = await response.json();
                 if (result.success && result.data && result.data.length > 0) {
-                    appData.students = result.data;
+                    appData.students = result.data.map(normalizeObjKeys);
                 }
 
-                // Fetch other sheets in parallel
                 const [movementRes, appsRes, discRes, wardensRes, dutyRes] = await Promise.all([
                     fetch(`${gasUrl}?action=getMovementRecords`).then(r => r.json()).catch(() => ({})),
                     fetch(`${gasUrl}?action=getApplications`).then(r => r.json()).catch(() => ({})),
@@ -770,11 +780,11 @@
                     fetch(`${gasUrl}?action=getDutyWarden`).then(r => r.json()).catch(() => ({}))
                 ]);
 
-                if (movementRes.success && movementRes.data?.length) appData.movement = movementRes.data;
-                if (appsRes.success && appsRes.data?.length) appData.applications = appsRes.data;
-                if (discRes.success && discRes.data?.length) appData.discipline = discRes.data;
-                if (wardensRes.success && wardensRes.data?.length) appData.wardens = wardensRes.data;
-                if (dutyRes.success && dutyRes.data?.length) appData.duty = dutyRes.data;
+                if (movementRes.success && movementRes.data?.length) appData.movement = movementRes.data.map(normalizeObjKeys);
+                if (appsRes.success && appsRes.data?.length) appData.applications = appsRes.data.map(normalizeObjKeys);
+                if (discRes.success && discRes.data?.length) appData.discipline = discRes.data.map(normalizeObjKeys);
+                if (wardensRes.success && wardensRes.data?.length) appData.wardens = wardensRes.data.map(normalizeObjKeys);
+                if (dutyRes.success && dutyRes.data?.length) appData.duty = dutyRes.data.map(normalizeObjKeys);
 
                 if (currentUser) loadDashboardData();
                 showToast('Data berjaya diselaraskan dengan Google Sheets!', 'success');
@@ -790,16 +800,16 @@
             const errText = document.getElementById('loginErrorText');
             if (!usernameInput || !errDiv || !errText) return;
 
-            const username = usernameInput.value.trim();
+            const username = usernameInput.value.trim().toLowerCase();
             errDiv.classList.add('hidden');
 
-            let foundWarden = appData.wardens.find(w => w.username === username || w.name.toLowerCase().includes(username.toLowerCase()));
+            let foundWarden = appData.wardens.find(w => (w.username && w.username.toLowerCase() === username) || (w.nama && w.nama.toLowerCase().includes(username)));
 
             if (foundWarden || username === 'admin' || username === 'warden01') {
-                currentUser = foundWarden || { name: "Cikgu Mohd Razak", role: "Admin", username: username };
+                currentUser = foundWarden || { nama: "Cikgu Mohd Razak", role: "Admin", username: username };
                 sessionStorage.setItem('smk_kanowit_user', JSON.stringify(currentUser));
                 initAppSession();
-                showToast(`Selamat datang, ${currentUser.name}!`, 'success');
+                showToast(`Selamat datang, ${currentUser.nama || currentUser.name || 'Warden'}!`, 'success');
             } else {
                 errText.textContent = "ID Warden atau username tidak sah.";
                 errDiv.classList.remove('hidden');
@@ -820,6 +830,9 @@
             if (loginView) loginView.classList.add('hidden');
             if (appContainer) appContainer.classList.remove('hidden');
             
+            const cName = currentUser.nama || currentUser.name || 'Warden Asrama';
+            const cRole = currentUser.role || 'Admin';
+
             const sidebarUserName = document.getElementById('sidebarUserName');
             const sidebarUserRole = document.getElementById('sidebarUserRole');
             const sidebarUserInitial = document.getElementById('sidebarUserInitial');
@@ -827,11 +840,11 @@
             const topNavAvatar = document.getElementById('topNavAvatar');
             const topNavTime = document.getElementById('topNavTime');
 
-            if (sidebarUserName) sidebarUserName.textContent = currentUser.name;
-            if (sidebarUserRole) sidebarUserRole.textContent = currentUser.role || 'Warden';
-            if (sidebarUserInitial) sidebarUserInitial.textContent = currentUser.name.charAt(0);
-            if (topNavName) topNavName.textContent = currentUser.name;
-            if (topNavAvatar) topNavAvatar.textContent = currentUser.name.charAt(0);
+            if (sidebarUserName) sidebarUserName.textContent = cName;
+            if (sidebarUserRole) sidebarUserRole.textContent = cRole;
+            if (sidebarUserInitial) sidebarUserInitial.textContent = cName.charAt(0);
+            if (topNavName) topNavName.textContent = cName;
+            if (topNavAvatar) topNavAvatar.textContent = cName.charAt(0);
             if (topNavTime) topNavTime.textContent = new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
 
             loadDashboardData();
@@ -898,18 +911,23 @@
         function getLatestStudentStatuses() {
             let statusMap = {};
             appData.students.forEach(s => {
-                statusMap[s.id || s.noMyKad] = { status: 'IN', time: '-', note: 'Dalam asrama', processed: false };
+                let id = s.mykad || s.nomykad || s.id;
+                statusMap[id] = { status: 'IN', masa: '-', catatan: 'Dalam asrama', processed: false };
             });
 
-            let sortedMovement = [...appData.movement].sort((a,b) => new Date(`${b.date} ${b.time}`) - new Date(`${a.date} ${a.time}`));
+            let sortedMovement = [...appData.movement].sort((a,b) => {
+                let dateA = new Date(`${a.tarikh || a.date} ${a.masa || a.time}`);
+                let dateB = new Date(`${b.tarikh || b.date} ${b.masa || b.time}`);
+                return dateB - dateA;
+            });
             
             sortedMovement.forEach(m => {
-                let id = m.mykad || m.noMyKad;
+                let id = m.mykad || m.nomykad || m.idpelajar;
                 if (statusMap[id] && !statusMap[id].processed) {
-                    statusMap[id].status = m.status;
-                    statusMap[id].time = m.time;
-                    statusMap[id].date = m.date;
-                    statusMap[id].note = m.note;
+                    statusMap[id].status = (m.status || 'IN').toUpperCase();
+                    statusMap[id].masa = m.masa || m.time || '-';
+                    statusMap[id].tarikh = m.tarikh || m.date;
+                    statusMap[id].catatan = m.catatan || m.note || 'Keluar sementara';
                     statusMap[id].processed = true;
                 }
             });
@@ -926,7 +944,7 @@
                 else inCount++;
             });
 
-            let pendingApps = appData.applications.filter(a => a.status === 'Dalam proses').length;
+            let pendingApps = appData.applications.filter(a => (a.status || '').toLowerCase() === 'dalam proses').length;
             let discCount = appData.discipline.length;
 
             document.getElementById('statTotalStudents').textContent = totalStudents;
@@ -948,7 +966,8 @@
             tbody.innerHTML = '';
 
             let outsideStudents = appData.students.filter(s => {
-                let st = statusMap[s.id || s.noMyKad];
+                let id = s.mykad || s.nomykad || s.id;
+                let st = statusMap[id];
                 return st && st.status === 'OUT';
             });
 
@@ -958,7 +977,10 @@
             }
 
             outsideStudents.forEach(s => {
-                let sid = s.id || s.noMyKad;
+                let sid = s.mykad || s.nomykad || s.id;
+                let sname = s.namapenuh || s.name || s.namapelajar;
+                let sclass = s.kelas || s.class;
+                let sroom = s.bilikasrama || s.bilik || '-';
                 let st = statusMap[sid];
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
@@ -966,14 +988,14 @@
                     <td class="py-3 px-4 flex items-center space-x-3">
                         <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-9 h-9 rounded-full object-cover border border-slate-200">
                         <div>
-                            <span class="block font-semibold text-slate-800 text-sm">${s.name || s.namaPenuh}</span>
-                            <span class="text-xs text-slate-500">${s.class || s.kelas}</span>
+                            <span class="block font-semibold text-slate-800 text-sm">${sname}</span>
+                            <span class="text-xs text-slate-500">${sclass}</span>
                         </div>
                     </td>
-                    <td class="py-3 px-4 text-xs font-medium text-slate-700">${s.room || s.bilikAsrama || '-'}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${st.time || '14:35'}</td>
+                    <td class="py-3 px-4 text-xs font-medium text-slate-700">${sroom}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${st.masa || '14:35'}</td>
                     <td class="py-3 px-4 text-xs font-semibold text-outcolor">Aktif (OUT)</td>
-                    <td class="py-3 px-4 text-xs text-slate-500">${st.note || 'Keluar sementara'}</td>
+                    <td class="py-3 px-4 text-xs text-slate-500">${st.catatan || 'Keluar sementara'}</td>
                     <td class="py-3 px-4 text-right">
                         <button onclick="openStudentProfile('${sid}')" class="px-3 py-1.5 bg-blue-50 text-primary hover:bg-blue-100 rounded-lg text-xs font-semibold transition">Profil</button>
                     </td>
@@ -992,16 +1014,17 @@
         function renderDutyWardenCard() {
             const container = document.getElementById('dutyWardenContainer');
             if (!container) return;
-            const dutyToday = appData.duty[0] || { name: "Cikgu Mohd Razak bin Bujang", start: "2026-10-12", end: "2026-10-18" };
-            let wardenObj = appData.wardens.find(w => w.name === dutyToday.name) || appData.wardens[0] || { name: dutyToday.name, role: 'Warden', phone: '013-8887766', image: 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden' };
+            const dutyToday = appData.duty[0] || { namawarden: "Cikgu Duli Ninti", tarikhmula: "2026-10-12", tarihkhtamat: "2026-10-18" };
+            let wardenName = dutyToday.namawarden || dutyToday.name || "Cikgu Duli Ninti";
+            let wardenObj = appData.wardens.find(w => (w.nama || w.name || "").toLowerCase() === wardenName.toLowerCase()) || appData.wardens[0] || { nama: wardenName, role: 'Warden', notelefon: '013-8887766', image: 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden' };
 
             container.innerHTML = `
                 <img src="${wardenObj.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mb-3">
-                <h4 class="font-bold text-slate-900 text-sm">${wardenObj.name}</h4>
+                <h4 class="font-bold text-slate-900 text-sm">${wardenObj.nama || wardenObj.name}</h4>
                 <p class="text-xs text-primary font-medium mt-0.5">${wardenObj.role || 'Warden'} Asrama</p>
                 <div class="mt-3 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
                     <i class="fa-solid fa-phone text-emerald-600"></i>
-                    <span>${wardenObj.phone || '013-8887766'}</span>
+                    <span>${wardenObj.notelefon || wardenObj.phone || '013-8887766'}</span>
                 </div>
             `;
         }
@@ -1119,9 +1142,9 @@
             const statusMap = getLatestStudentStatuses();
 
             let filtered = appData.students.filter(s => {
-                let name = s.name || s.namaPenuh || '';
-                let id = s.id || s.noMyKad || '';
-                let cls = s.class || s.kelas || '';
+                let name = s.namapenuh || s.name || s.namapelajar || '';
+                let id = s.mykad || s.nomykad || s.id || '';
+                let cls = s.kelas || s.class || '';
                 let matchSearch = name.toLowerCase().includes(search) || id.toLowerCase().includes(search);
                 let matchClass = !classFilter || cls === classFilter;
                 let st = statusMap[id] ? statusMap[id].status : 'IN';
@@ -1135,13 +1158,13 @@
             }
 
             filtered.forEach(s => {
-                let sid = s.id || s.noMyKad;
-                let sname = s.name || s.namaPenuh;
-                let sclass = s.class || s.kelas;
-                let sroom = s.room || s.bilikAsrama || '-';
-                let saddress = s.address || s.alamat || '-';
-                let sguardian = s.guardian || s.namaPenjaga || '-';
-                let sphone = s.phone || s.noTel || '-';
+                let sid = s.mykad || s.nomykad || s.id;
+                let sname = s.namapenuh || s.name || s.namapelajar;
+                let sclass = s.kelas || s.class;
+                let sroom = s.bilikasrama || s.bilik || '-';
+                let saddress = s.alamat || s.address || '-';
+                let sguardian = s.namapenjaga || s.penjaga || '-';
+                let sphone = s.notel || s.phone || '-';
                 let simg = s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
                 let st = statusMap[sid] ? statusMap[sid].status : 'IN';
@@ -1177,12 +1200,19 @@
         }
 
         function openStudentProfile(studentId) {
-            const student = appData.students.find(s => (s.id || s.noMyKad) === studentId);
+            const student = appData.students.find(s => (s.mykad || s.nomykad || s.id) === studentId);
             if (!student) return;
             const statusMap = getLatestStudentStatuses();
             let st = statusMap[studentId] ? statusMap[studentId].status : 'IN';
             let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
             let badgeText = st === 'IN' ? 'DALAM ASRAMA' : 'SEDANG KELUAR';
+
+            let sname = student.namapenuh || student.name || student.namapelajar;
+            let sclass = student.kelas || student.class;
+            let sroom = student.bilikasrama || student.bilik;
+            let saddress = student.alamat || student.address;
+            let sguardian = student.namapenjaga || student.penjaga;
+            let sphone = student.notel || student.phone;
 
             const modalContent = document.getElementById('studentProfileContent');
             if (!modalContent) return;
@@ -1191,22 +1221,22 @@
                     <img src="${student.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-28 h-28 rounded-2xl object-cover border-4 border-slate-100 shadow-md">
                     <div class="flex-1 text-center md:text-left">
                         <span class="inline-block px-3 py-1 text-xs font-bold rounded-full border ${badgeClass} mb-2">${badgeText}</span>
-                        <h2 class="text-xl font-bold text-slate-900">${student.name || student.namaPenuh}</h2>
-                        <p class="text-xs text-slate-500 font-mono mt-0.5">No MyKad: ${student.id || student.noMyKad}</p>
-                        <p class="text-xs font-semibold text-primary mt-1">Kelas: ${student.class || student.kelas} | Bilik: ${student.room || student.bilikAsrama}</p>
+                        <h2 class="text-xl font-bold text-slate-900">${sname}</h2>
+                        <p class="text-xs text-slate-500 font-mono mt-0.5">No MyKad: ${studentId}</p>
+                        <p class="text-xs font-semibold text-primary mt-1">Kelas: ${sclass} | Bilik: ${sroom}</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
                         <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Maklumat Peribadi & Penjaga</h4>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Alamat:</strong> ${student.address || student.alamat}</p>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Nama Penjaga:</strong> ${student.guardian || student.namaPenjaga}</p>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">No Telefon:</strong> ${student.phone || student.noTel}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Alamat:</strong> ${saddress}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Nama Penjaga:</strong> ${sguardian}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">No Telefon:</strong> ${sphone}</p>
                     </div>
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
                         <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Status Pergerakan</h4>
                         <p class="text-xs text-slate-600"><strong class="text-slate-800">Status Semasa:</strong> ${badgeText}</p>
-                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Masa:</strong> ${statusMap[studentId]?.time || '-'}</p>
+                        <p class="text-xs text-slate-600"><strong class="text-slate-800">Masa:</strong> ${statusMap[studentId]?.masa || '-'}</p>
                     </div>
                 </div>
             `;
@@ -1240,16 +1270,21 @@
                 return;
             }
 
-            let results = appData.students.filter(s => (s.name || s.namaPenuh || '').toLowerCase().includes(query) || (s.id || s.noMyKad || '').toLowerCase().includes(query));
+            let results = appData.students.filter(s => {
+                let name = (s.namapenuh || s.name || s.namapelajar || '').toLowerCase();
+                let id = (s.mykad || s.nomykad || s.id || '').toLowerCase();
+                return name.includes(query) || id.includes(query);
+            });
+
             if (results.length === 0) {
                 container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Pelajar tidak dijumpai.</p>`;
                 return;
             }
 
             results.forEach(s => {
-                let sid = s.id || s.noMyKad;
-                let sname = s.name || s.namaPenuh;
-                let sclass = s.class || s.kelas;
+                let sid = s.mykad || s.nomykad || s.id;
+                let sname = s.namapenuh || s.name || s.namapelajar;
+                let sclass = s.kelas || s.class;
                 let div = document.createElement('div');
                 div.className = "p-3 bg-white hover:bg-blue-50 cursor-pointer rounded-xl border border-slate-200 transition flex items-center space-x-3";
                 div.onclick = () => selectStudentForMovement(sid);
@@ -1265,20 +1300,24 @@
         }
 
         function selectStudentForMovement(studentId) {
-            const s = appData.students.find(st => (st.id || st.noMyKad) === studentId);
+            const s = appData.students.find(st => (st.mykad || st.nomykad || st.id) === studentId);
             if (!s) return;
             const statusMap = getLatestStudentStatuses();
             let st = statusMap[studentId] ? statusMap[studentId].status : 'IN';
             let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
             let badgeText = st === 'IN' ? 'DALAM ASRAMA (IN)' : 'DI LUAR (OUT)';
 
+            let sname = s.namapenuh || s.name || s.namapelajar;
+            let sclass = s.kelas || s.class;
+            let sroom = s.bilikasrama || s.bilik || '-';
+
             document.getElementById('movementSelectedDetails').innerHTML = `
                 <div class="flex items-center space-x-4 mb-6">
                     <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow">
                     <div>
                         <span class="inline-block px-3 py-1 text-xs font-bold rounded-full border ${badgeClass} mb-1">${badgeText}</span>
-                        <h3 class="text-lg font-bold text-slate-900">${s.name || s.namaPenuh}</h3>
-                        <p class="text-xs text-slate-500">Kelas: ${s.class || s.kelas} | Bilik: ${s.room || s.bilikAsrama || '-'}</p>
+                        <h3 class="text-lg font-bold text-slate-900">${sname}</h3>
+                        <p class="text-xs text-slate-500">Kelas: ${sclass} | Bilik: ${sroom}</p>
                     </div>
                 </div>
                 <div class="space-y-4">
@@ -1301,28 +1340,30 @@
         }
 
         async function recordMovement(studentId, status) {
-            const s = appData.students.find(st => (st.id || st.noMyKad) === studentId);
+            const s = appData.students.find(st => (st.mykad || st.nomykad || st.id) === studentId);
             const note = document.getElementById('movementNoteInput')?.value.trim() || (status === 'OUT' ? 'Keluar asrama' : 'Masuk asrama');
             const now = new Date();
+            let sname = s.namapenuh || s.name || s.namapelajar;
+            let sclass = s.kelas || s.class;
+
             const record = {
                 action: 'addMovement',
                 id: 'M' + (appData.movement.length + 101),
-                mykad: s.id || s.noMyKad,
-                name: s.name || s.namaPenuh,
-                class: s.class || s.kelas,
-                date: now.toISOString().split('T')[0],
+                mykad: studentId,
+                nama: sname,
+                kelas: sclass,
+                tarikh: now.toISOString().split('T')[0],
                 status: status,
-                time: now.toTimeString().substring(0, 5),
+                masa: now.toTimeString().substring(0, 5),
                 image: s.image || '',
-                note: note
+                catatan: note
             };
 
             appData.movement.unshift(record);
-            showToast(`Berjaya merekod ${status} untuk ${s.name || s.namaPenuh}!`, 'success');
+            showToast(`Berjaya merekod ${status} untuk ${sname}!`, 'success');
             initMovementModule();
             loadDashboardData();
 
-            // Send to Google Sheets if gasUrl is available
             if (gasUrl) {
                 try {
                     await fetch(gasUrl, { method: 'POST', body: JSON.stringify(record) });
@@ -1337,25 +1378,33 @@
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            let filtered = appData.applications.filter(a => filterStatus === 'Semua' || a.status === filterStatus);
+            let filtered = appData.applications.filter(a => filterStatus === 'Semua' || (a.status || '').toLowerCase() === filterStatus.toLowerCase());
             if (filtered.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400 text-xs">Tiada permohonan dijumpai.</td></tr>`;
                 return;
             }
 
             filtered.forEach(a => {
-                let badgeClass = a.status === 'Diluluskan' ? 'bg-green-100 text-green-700 border-green-200' : (a.status === 'Ditolak' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-amber-100 text-amber-700 border-amber-200');
+                let st = a.status || 'Dalam proses';
+                let badgeClass = st.toLowerCase() === 'diluluskan' ? 'bg-green-100 text-green-700 border-green-200' : (st.toLowerCase() === 'ditolak' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-amber-100 text-amber-700 border-amber-200');
+                
+                let aname = a.nama || a.name || a.namapelajar;
+                let aclass = a.kelas || a.class;
+                let adate = a.tarikhpermohonan || a.tarikh || a.date;
+                let areason = a.sebab || a.reason;
+                let aapprover = a.pelulus || a.approver || '-';
+
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4">
-                        <span class="block font-bold text-slate-800 text-sm">${a.name || a.nama}</span>
-                        <span class="text-xs text-slate-500">${a.class || a.kelas}</span>
+                        <span class="block font-bold text-slate-800 text-sm">${aname}</span>
+                        <span class="text-xs text-slate-500">${aclass}</span>
                     </td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${a.date || a.tarikhPermohonan}</td>
-                    <td class="py-3 px-4 text-xs text-slate-700">${a.reason || a.sebab}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${a.approver || a.pelulus || '-'}</td>
-                    <td class="py-3 px-4"><span class="px-2.5 py-1 text-[10px] font-bold rounded-full border ${badgeClass}">${a.status}</span></td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${adate}</td>
+                    <td class="py-3 px-4 text-xs text-slate-700">${areason}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${aapprover}</td>
+                    <td class="py-3 px-4"><span class="px-2.5 py-1 text-[10px] font-bold rounded-full border ${badgeClass}">${st}</span></td>
                     <td class="py-3 px-4 text-right space-x-1">
                         <button onclick="updateAppStatus('${a.id}', 'Diluluskan')" class="px-2.5 py-1 bg-green-50 text-green-700 hover:bg-green-100 rounded-lg text-xs font-semibold transition">Lulus</button>
                         <button onclick="updateAppStatus('${a.id}', 'Ditolak')" class="px-2.5 py-1 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg text-xs font-semibold transition">Tolak</button>
@@ -1373,7 +1422,7 @@
             let app = appData.applications.find(a => a.id === appId);
             if (app) {
                 app.status = newStatus;
-                app.approver = currentUser ? currentUser.name : 'Warden';
+                app.pelulus = currentUser ? (currentUser.nama || currentUser.name) : 'Warden';
                 showToast(`Permohonan dikemas kini kepada ${newStatus}.`, 'success');
                 renderApplicationsTable('Semua');
                 loadDashboardData();
@@ -1397,18 +1446,26 @@
             }
 
             appData.discipline.forEach(d => {
+                let dname = d.nama || d.name || d.namapelajar;
+                let dclass = d.kelas || d.class;
+                let dtime = d.tarikhmasa || d.datetime || d.tarikh;
+                let dtype = d.jeniskesalahan || d.type || d.kesalahan;
+                let ddesc = d.keterangan || d.desc;
+                let daction = d.tindakan || d.action;
+                let dwarden = d.wardenbertugas || d.warden || 'Warden';
+
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4">
-                        <span class="block font-bold text-slate-800 text-sm">${d.name}</span>
-                        <span class="text-xs text-slate-500">${d.class}</span>
+                        <span class="block font-bold text-slate-800 text-sm">${dname}</span>
+                        <span class="text-xs text-slate-500">${dclass}</span>
                     </td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${d.datetime}</td>
-                    <td class="py-3 px-4 text-xs font-semibold text-purple-700">${d.type}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${d.desc}</td>
-                    <td class="py-3 px-4 text-xs font-medium text-slate-700">${d.action}</td>
-                    <td class="py-3 px-4 text-right text-xs text-slate-600">${d.warden}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${dtime}</td>
+                    <td class="py-3 px-4 text-xs font-semibold text-purple-700">${dtype}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${ddesc}</td>
+                    <td class="py-3 px-4 text-xs font-medium text-slate-700">${daction}</td>
+                    <td class="py-3 px-4 text-right text-xs text-slate-600">${dwarden}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1419,9 +1476,12 @@
             if (!select) return;
             select.innerHTML = '';
             appData.students.forEach(s => {
+                let sid = s.mykad || s.nomykad || s.id;
+                let sname = s.namapenuh || s.name || s.namapelajar;
+                let sclass = s.kelas || s.class;
                 let opt = document.createElement('option');
-                opt.value = s.id || s.noMyKad;
-                opt.textContent = `${s.name || s.namaPenuh} (${s.class || s.kelas})`;
+                opt.value = sid;
+                opt.textContent = `${sname} (${sclass})`;
                 select.appendChild(opt);
             });
             document.getElementById('addDisciplineModal')?.classList.remove('hidden');
@@ -1434,20 +1494,23 @@
         async function handleSaveDiscipline(e) {
             e.preventDefault();
             const studentId = document.getElementById('discStudentSelect').value;
-            const s = appData.students.find(st => (st.id || st.noMyKad) === studentId);
+            const s = appData.students.find(st => (st.mykad || st.nomykad || st.id) === studentId);
             if (!s) return;
 
             const now = new Date();
+            let sname = s.namapenuh || s.name || s.namapelajar;
+            let sclass = s.kelas || s.class;
+
             let record = {
                 action: 'addDiscipline',
-                mykad: s.id || s.noMyKad,
-                name: s.name || s.namaPenuh,
-                class: s.class || s.kelas,
-                datetime: now.toISOString().replace('T', ' ').substring(0, 16),
-                type: document.getElementById('discTypeInput').value,
-                desc: document.getElementById('discDescInput').value,
-                action: document.getElementById('discActionInput').value,
-                warden: currentUser ? currentUser.name : 'Warden'
+                idpelajar: studentId,
+                nama: sname,
+                kelas: sclass,
+                tarikhmasa: now.toISOString().replace('T', ' ').substring(0, 16),
+                jeniskesalahan: document.getElementById('discTypeInput').value,
+                keterangan: document.getElementById('discDescInput').value,
+                tindakan: document.getElementById('discActionInput').value,
+                wardenbertugas: currentUser ? (currentUser.nama || currentUser.name) : 'Warden'
             };
 
             appData.discipline.unshift(record);
@@ -1468,15 +1531,18 @@
             if (!grid) return;
             grid.innerHTML = '';
             appData.wardens.forEach(w => {
+                let wname = w.nama || w.name;
+                let wphone = w.notelefon || w.phone || '-';
+                let wrole = w.role || 'Warden';
                 let div = document.createElement('div');
                 div.className = "bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center";
                 div.innerHTML = `
                     <img src="${w.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow mb-3">
-                    <h4 class="font-bold text-slate-900 text-sm">${w.nama}</h4>
-                    <p class="text-xs text-primary font-medium mt-0.5">Role: ${w.role || 'Warden'}</p>
+                    <h4 class="font-bold text-slate-900 text-sm">${wname}</h4>
+                    <p class="text-xs text-primary font-medium mt-0.5">Role: ${wrole}</p>
                     <div class="mt-4 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
                         <i class="fa-solid fa-phone text-emerald-600"></i>
-                        <span>${w['No Telefon']|| '-'}</span>
+                        <span>${wphone}</span>
                     </div>
                 `;
                 grid.appendChild(div);
@@ -1488,14 +1554,19 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             appData.duty.forEach(d => {
+                let dname = d.namawarden || d.name || d.namawarden;
+                let dstart = d.tarikhmula || d.start;
+                let dend = d.tarihkhtamat || d.end;
+                let dstatus = d.status || 'Aktif';
+
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 text-xs font-mono text-slate-600">${d.id || 'D01'}</td>
-                    <td class="py-3 px-4 text-xs font-bold text-slate-800">${d.name}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${d.start}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${d.end}</td>
-                    <td class="py-3 px-4 text-right"><span class="px-2.5 py-1 text-[10px] font-bold rounded-full bg-blue-100 text-blue-700 border border-blue-200">${d.status}</span></td>
+                    <td class="py-3 px-4 text-xs font-bold text-slate-800">${dname}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${dstart}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600">${dend}</td>
+                    <td class="py-3 px-4 text-right"><span class="px-2.5 py-1 text-[10px] font-bold rounded-full bg-blue-100 text-blue-700 border border-blue-200">${dstatus}</span></td>
                 `;
                 tbody.appendChild(tr);
             });
