@@ -43,8 +43,8 @@
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-4 border border-blue-100 shadow-inner overflow-hidden p-2">
                     <img src="DOutSys_images/logosmkk.png" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=SMKK'" class="w-full h-full object-contain">
                 </div>
-                <h1 class="text-2xl font-bold text-slate-900">Dorm Outing System SMKK</h1>
-                <p class="text-sm font-medium text-primary mt-1">SMK KANOWIT (SMKK)</p>
+                <h1 class="text-2xl font-bold text-slate-900">Dorm Outing System (DOutSys)</h1>
+                <p class="text-sm font-medium text-primary mt-1">SMK KANOWIT (YEA3302)</p>
                 <div id="modeBadge" class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                     <i class="fa-solid fa-circle-check mr-1"></i> LIVE GOOGLE SHEETS CONNECTED
                 </div>
@@ -1178,7 +1178,7 @@
                 let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
                 let st = statusMap[sid] ? statusMap[sid].status : 'IN';
-                let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
+                let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200 text-xs truncate max-w-[150px] px-2 py-1 rounded' : 'bg-red-100 text-red-700 border-red-200 text-xs truncate max-w-[150px] px-2 py-1 rounded';
                 let badgeText = st === 'IN' ? 'DALAM ASRAMA' : 'SEDANG KELUAR';
 
                 let tr = document.createElement('tr');
@@ -1315,7 +1315,7 @@
             if (!s) return;
             const statusMap = getLatestStudentStatuses();
             let st = statusMap[studentId] ? statusMap[studentId].status : 'IN';
-            let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-green-200';
+            let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200 text-xs truncate max-w-[150px] px-2 py-1 rounded' : 'bg-red-100 text-red-700 border-green-200 text-xs truncate max-w-[150px] px-2 py-1 rounded';
             let badgeText = st === 'IN' ? 'DALAM ASRAMA (IN)' : 'DI LUAR (OUT)';
 
             let sname = s.namapenuh || s.name || s.namapelajar;
