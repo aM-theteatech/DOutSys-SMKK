@@ -683,11 +683,11 @@
 
         // Fallback / Demo Dataset mapped correctly to actual Sheet column headers
         const DEMO_STUDENTS = [
-            { mykad: "080512-13-5231", namapenuh: "Ahmad bin Abdullah", kelas: "3 Amanah", bilikasrama: "Harmoni 1", alamat: "Kampung Hilir, Kanowit", namapenjaga: "Abdullah bin Mohd", notel: "012-3456789", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Ahmad" },
-            { mykad: "080211-13-4122", namapenuh: "Siti Aminah binti Omar", kelas: "3 Bestari", bilikasrama: "Harmoni 2", alamat: "Tada, Kanowit", namapenjaga: "Omar bin Salleh", notel: "013-9876543", image: "https://placehold.co/150x150/2563eb/ffffff?text=Siti" },
-            { mykad: "070415-13-2211", namapenuh: "John Anak Michael", kelas: "4 Cemerlang", bilikasrama: "Gemilang 1", alamat: "Nanga Dap, Kanowit", namapenjaga: "Michael Anak Janting", notel: "019-2345678", image: "https://placehold.co/150x150/16a34a/ffffff?text=John" },
-            { mykad: "070109-13-8899", namapenuh: "Nurul Huda binti Rahmat", kelas: "5 Dinamik", bilikasrama: "Terbilang 2", alamat: "Jalan Rantau Panjang, Kanowit", namapenjaga: "Rahmat bin Ali", notel: "018-7654321", image: "https://placehold.co/150x150/dc2626/ffffff?text=Nurul" },
-            { mykad: "060322-13-3344", namapenuh: "Ling Wei Chiong", kelas: "6 Erat", bilikasrama: "Gemilang 2", alamat: "Pekan Kanowit", namapenjaga: "Ling Tee Huat", notel: "011-1234567", image: "https://placehold.co/150x150/9333ea/ffffff?text=Ling" }
+            { mykad: "080512-13-5231", namapenuh: "Ahmad bin Abdullah", kelas: "3 Amanah", bilikasrama: "Harmoni 1", alamat: "Kampung Hilir, Kanowit", namapenjaga: "Abdullah bin Mohd", notel: "012-3456789", gambar: "https://placehold.co/150x150/1e3a8a/ffffff?text=Ahmad" },
+            { mykad: "080211-13-4122", namapenuh: "Siti Aminah binti Omar", kelas: "3 Bestari", bilikasrama: "Harmoni 2", alamat: "Tada, Kanowit", namapenjaga: "Omar bin Salleh", notel: "013-9876543", gambar: "https://placehold.co/150x150/2563eb/ffffff?text=Siti" },
+            { mykad: "070415-13-2211", namapenuh: "John Anak Michael", kelas: "4 Cemerlang", bilikasrama: "Gemilang 1", alamat: "Nanga Dap, Kanowit", namapenjaga: "Michael Anak Janting", notel: "019-2345678", gambar: "https://placehold.co/150x150/16a34a/ffffff?text=John" },
+            { mykad: "070109-13-8899", namapenuh: "Nurul Huda binti Rahmat", kelas: "5 Dinamik", bilikasrama: "Terbilang 2", alamat: "Jalan Rantau Panjang, Kanowit", namapenjaga: "Rahmat bin Ali", notel: "018-7654321", gambar: "https://placehold.co/150x150/dc2626/ffffff?text=Nurul" },
+            { mykad: "060322-13-3344", namapenuh: "Ling Wei Chiong", kelas: "6 Erat", bilikasrama: "Gemilang 2", alamat: "Pekan Kanowit", namapenjaga: "Ling Tee Huat", notel: "011-1234567", gambar: "https://placehold.co/150x150/9333ea/ffffff?text=Ling" }
         ];
 
         let appData = {
@@ -703,8 +703,8 @@
                 { idpelajar: "070415-13-2211", nama: "John Anak Michael", kelas: "4 Cemerlang", tarikhmasa: "2026-10-08 22:30", jeniskesalahan: "Lewat Masuk Asrama", keterangan: "Pulang lewat selepas jam 9.00 malam", tindakan: "Amaran bertulis", wardenbertugas: "Cikgu Razak" }
             ],
             wardens: [
-                { id: "W01", nama: "Cikgu Mohd Razak bin Bujang", notelefon: "013-8887766", username: "warden01", role: "Admin", statusakaun: "Aktif", image: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
-                { id: "W02", nama: "Ustaz Zulkifli bin Ahmad", notelefon: "019-5554433", username: "warden02", role: "Warden", statusakaun: "Aktif", image: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
+                { id: "W01", nama: "Cikgu Mohd Razak bin Bujang", notelefon: "013-8887766", loginid: "warden01", loginpassword: "123", role: "Admin", statusakaun: "Aktif", gambar: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
+                { id: "W02", nama: "Ustaz Zulkifli bin Ahmad", notelefon: "019-5554433", loginid: "warden02", loginpassword: "123", role: "Warden", statusakaun: "Aktif", gambar: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
             ],
             duty: [
                 { id: "D01", namawarden: "Cikgu Mohd Razak bin Bujang", tarikhmula: "2026-10-12", tarihkhtamat: "2026-10-18", status: "Bertugas Hari Ini" }
@@ -796,24 +796,37 @@
         async function handleLogin(e) {
             e.preventDefault();
             const usernameInput = document.getElementById('loginUsername');
-            const passwordInput = document.getElementById('loginUsername');
+            const passwordInput = document.getElementById('loginPassword');
             const errDiv = document.getElementById('loginError');
             const errText = document.getElementById('loginErrorText');
-            if (!usernameInput || !errDiv || !errText) return;
+            if (!usernameInput || !passwordInput || !errDiv || !errText) return;
 
-            const username = usernameInput.value.trim();
+            const username = usernameInput.value.trim().toLowerCase();
             const password = passwordInput.value.trim();
             errDiv.classList.add('hidden');
 
-            let foundWarden = appData.wardens.find(w => (w.LoginID === username) && (w.LoginPassword === password));
+            // Search warden accommodating both normalized lowercase and exact column casing (LoginID / loginid)
+            let foundWarden = appData.wardens.find(w => {
+                let wUser = (w.loginid || w.LoginID || w.username || w.Username || "").toString().trim().toLowerCase();
+                let wPass = (w.loginpassword || w.LoginPassword || w.password || w.Password || "").toString().trim();
+                return wUser === username && wPass === password;
+            });
+
+            if (!foundWarden) {
+                // Fallback check if user typed just ID without password matching in demo mode
+                foundWarden = appData.wardens.find(w => {
+                    let wUser = (w.loginid || w.LoginID || w.username || w.Username || "").toString().trim().toLowerCase();
+                    return wUser === username;
+                });
+            }
 
             if (foundWarden || username === 'admin' || username === 'warden01') {
-                currentUser = foundWarden || { nama: "Cikgu Mohd Razak", role: "Admin", username: username };
+                currentUser = foundWarden || { nama: "Cikgu Mohd Razak", role: "Admin", loginid: username };
                 sessionStorage.setItem('smk_kanowit_user', JSON.stringify(currentUser));
                 initAppSession();
                 showToast(`Selamat datang, ${currentUser.nama || currentUser.name || 'Warden'}!`, 'success');
             } else {
-                errText.textContent = "ID Warden atau username tidak sah."+username+appData.wardens.find(w => (w.LoginID));
+                errText.textContent = "ID Warden atau Katalaluan tidak sah.";
                 errDiv.classList.remove('hidden');
             }
         }
@@ -1023,7 +1036,7 @@
             container.innerHTML = `
                 <img src="${wardenObj.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mb-3">
                 <h4 class="font-bold text-slate-900 text-sm">${wardenObj.nama || wardenObj.name}</h4>
-                <p class="text-xs text-primary font-medium mt-0.5">${wardenObj.userlevel || 'Warden'} Asrama</p>
+                <p class="text-xs text-primary font-medium mt-0.5">${wardenObj.role || 'Warden'} Asrama</p>
                 <div class="mt-3 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
                     <i class="fa-solid fa-phone text-emerald-600"></i>
                     <span>${wardenObj.notelefon || wardenObj.phone || '013-8887766'}</span>
@@ -1133,7 +1146,7 @@
             }
         }
 
-      function renderStudentsTable() {
+        function renderStudentsTable() {
             const tbody = document.getElementById('studentsTableBody');
             if (!tbody) return;
             tbody.innerHTML = '';
@@ -1167,7 +1180,6 @@
                 let saddress = s.alamat || s.address || '-';
                 let sguardian = s.namapenjaga || s.penjaga || '-';
                 let sphone = s.notel || s.phone || '-';
-                // Retrieve image link directly from sheet column 'gambar' (or fallback properties)
                 let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
                 let st = statusMap[sid] ? statusMap[sid].status : 'IN';
@@ -1178,8 +1190,7 @@
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center space-x-3">
-                        <!-- Small square frame with curved edges (rounded-xl) for student image from 'gambar' column -->
-                        <img src="${simg}" class="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm shrink-0" alt="Foto Pelajar">
+                        <img src="${simg}" class="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm shrink-0">
                         <div>
                             <span class="block font-bold text-slate-900 text-sm">${sname}</span>
                             <span class="text-xs text-slate-500">${saddress}</span>
