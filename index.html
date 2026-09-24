@@ -1183,7 +1183,7 @@
                 let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
                 let st = statusMap[sid] ? statusMap[sid].status : 'IN';
-                let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
+                let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200 text-xs truncate max-w-[150px] px-2 py-1 rounded' : 'bg-red-100 text-red-700 border-red-200 text-xs truncate max-w-[150px] px-2 py-1 rounded';
                 let badgeText = st === 'IN' ? 'DALAM ASRAMA' : 'SEDANG KELUAR';
 
                 let tr = document.createElement('tr');
@@ -1570,9 +1570,9 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             appData.duty.forEach(d => {
-                let dname = d.namawarden || d.name || d.namawarden;
-                let dstart = d.tarikhmula || d.start;
-                let dend = d.tarihkhtamat || d.end;
+                let dname = d.namawarden || d.nama || d.namawarden;
+                let dstart = d.tarikhmula || d.start || d['Tarikh Mula'];
+                let dend = d.tarihkhtamat || d.end || d['Tarikh Tamat'];
                 let dstatus = d.status || 'Aktif';
 
                 let tr = document.createElement('tr');
