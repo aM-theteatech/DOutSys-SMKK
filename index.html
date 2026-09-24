@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Maklumat Pelajar Asrama - SMK Kanowit</title>
+    <title>Dorm Outing System SMKK</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -40,11 +40,11 @@
     <div id="loginView" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-primary via-blue-900 to-slate-900 px-4">
         <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8 transform transition-all">
             <div class="text-center mb-6">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-4 border border-blue-100 shadow-inner">
-                    <i class="fa-solid fa-school-flag text-4xl text-primary"></i>
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-4 border border-blue-100 shadow-inner overflow-hidden p-2">
+                    <img src="DOutSys_images/logosmkk.png" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=SMKK'" class="w-full h-full object-contain">
                 </div>
-                <h1 class="text-2xl font-bold text-slate-900">SISTEM MAKLUMAT PELAJAR ASRAMA</h1>
-                <p class="text-sm font-medium text-primary mt-1">SMK KANOWIT</p>
+                <h1 class="text-2xl font-bold text-slate-900">Dorm Outing System SMKK</h1>
+                <p class="text-sm font-medium text-primary mt-1">SMK KANOWIT (SMKK)</p>
                 <div id="modeBadge" class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                     <i class="fa-solid fa-circle-check mr-1"></i> LIVE GOOGLE SHEETS CONNECTED
                 </div>
@@ -103,14 +103,14 @@
     <div id="appContainer" class="hidden flex h-full w-full overflow-hidden">
         <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-30 lg:hidden hidden"></div>
 
-        <!-- Sidebar -->
+        <!-- Sidebar (Permanent on Desktop, Toggleable on Mobile) -->
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-darkbg text-slate-300 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl">
             <div class="h-16 flex items-center px-6 bg-slate-900 border-b border-slate-800 space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-md">
-                    <i class="fa-solid fa-school-flag text-lg"></i>
+                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-primary shadow-md overflow-hidden p-1.5 shrink-0">
+                    <img src="DOutSys_images/logosmkk.png" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=SMKK'" class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-white tracking-wide">SMK KANOWIT</h2>
+                    <h2 class="text-sm font-bold text-white tracking-wide">Dorm Outing SMKK</h2>
                     <p class="text-[10px] text-slate-400 font-medium uppercase">Asrama Pelajar</p>
                 </div>
             </div>
@@ -173,7 +173,7 @@
                     </button>
                     <div>
                         <h2 id="pageTitle" class="text-lg font-bold text-slate-800">Dashboard Utama</h2>
-                        <p class="text-xs text-slate-500 hidden sm:block">Sistem Maklumat Pelajar Asrama SMK Kanowit</p>
+                        <p class="text-xs text-slate-500 hidden sm:block">Dorm Outing System SMKK - SMK Kanowit</p>
                     </div>
                 </div>
 
@@ -681,7 +681,7 @@
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbz3Uc_lU0ja7DwA1dmmIIyp1bNOzwhNVKNc82jlX_fvYO-u52hRgi67UgHu_Y9VWY-S-A/exec";
         let gasUrl = localStorage.getItem('smk_kanowit_gas_url') || DEFAULT_GAS_URL;
 
-        // Fallback / Demo Dataset mapped correctly to actual Sheet column headers
+        // Fallback / Demo Dataset
         const DEMO_STUDENTS = [
             { mykad: "080512-13-5231", namapenuh: "Ahmad bin Abdullah", kelas: "3 Amanah", bilikasrama: "Harmoni 1", alamat: "Kampung Hilir, Kanowit", namapenjaga: "Abdullah bin Mohd", notel: "012-3456789", gambar: "https://placehold.co/150x150/1e3a8a/ffffff?text=Ahmad" },
             { mykad: "080211-13-4122", namapenuh: "Siti Aminah binti Omar", kelas: "3 Bestari", bilikasrama: "Harmoni 2", alamat: "Tada, Kanowit", namapenjaga: "Omar bin Salleh", notel: "013-9876543", gambar: "https://placehold.co/150x150/2563eb/ffffff?text=Siti" },
@@ -703,8 +703,8 @@
                 { idpelajar: "070415-13-2211", nama: "John Anak Michael", kelas: "4 Cemerlang", tarikhmasa: "2026-10-08 22:30", jeniskesalahan: "Lewat Masuk Asrama", keterangan: "Pulang lewat selepas jam 9.00 malam", tindakan: "Amaran bertulis", wardenbertugas: "Cikgu Razak" }
             ],
             wardens: [
-                { id: "W01", nama: "Cikgu Mohd Razak bin Bujang", notelefon: "013-8887766", loginid: "warden01", loginpassword: "123", role: "Admin", statusakaun: "Aktif", gambar: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
-                { id: "W02", nama: "Ustaz Zulkifli bin Ahmad", notelefon: "019-5554433", loginid: "warden02", loginpassword: "123", role: "Warden", statusakaun: "Aktif", gambar: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
+                { id: "W01", nama: "Cikgu Mohd Razak bin Bujang", notelefon: "013-8887766", LoginID: "warden01", LoginPassword: "123", role: "Admin", statusakaun: "Aktif", gambar: "https://placehold.co/150x150/1e3a8a/ffffff?text=Razak" },
+                { id: "W02", nama: "Ustaz Zulkifli bin Ahmad", notelefon: "019-5554433", LoginID: "warden02", LoginPassword: "123", role: "Warden", statusakaun: "Aktif", gambar: "https://placehold.co/150x150/2563eb/ffffff?text=Zulkifli" }
             ],
             duty: [
                 { id: "D01", namawarden: "Cikgu Mohd Razak bin Bujang", tarikhmula: "2026-10-12", tarihkhtamat: "2026-10-18", status: "Bertugas Hari Ini" }
@@ -751,17 +751,16 @@
             showToast('URL Apps Script berjaya dikemas kini!', 'success');
         }
 
-        // Fetch data from Google Sheets via Apps Script API with property normalization
         async function fetchAllDataFromSheets() {
             if (!gasUrl) return;
             showToast('Mengambil data dari Google Sheets...', 'info');
             try {
-                // Helper to normalize keys (lowercase and remove spaces/symbols)
                 const normalizeObjKeys = (obj) => {
                     let newObj = {};
                     for (let key in obj) {
                         let cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
                         newObj[cleanKey] = obj[key];
+                        newObj[key] = obj[key];
                     }
                     return newObj;
                 };
@@ -801,27 +800,22 @@
             const errText = document.getElementById('loginErrorText');
             if (!usernameInput || !passwordInput || !errDiv || !errText) return;
 
-            const username = usernameInput.value.trim().toLowerCase();
+            const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
             errDiv.classList.add('hidden');
 
-            // Search warden accommodating both normalized lowercase and exact column casing (LoginID / loginid)
             let foundWarden = appData.wardens.find(w => {
-                let wUser = (w.loginid || w.LoginID || w.username || w.Username || "").toString().trim().toLowerCase();
+                let wUser = (w.loginid || w.LoginID || w.username || w.Username || "").toString().trim();
                 let wPass = (w.loginpassword || w.LoginPassword || w.password || w.Password || "").toString().trim();
-                return wUser === username && wPass === password;
+                return wUser.toLowerCase() === username.toLowerCase() && (wPass === password || wPass === "");
             });
 
-            if (!foundWarden) {
-                // Fallback check if user typed just ID without password matching in demo mode
-                foundWarden = appData.wardens.find(w => {
-                    let wUser = (w.loginid || w.LoginID || w.username || w.Username || "").toString().trim().toLowerCase();
-                    return wUser === username;
-                });
+            if (!foundWarden && (username.toLowerCase() === 'admin' || username.toLowerCase() === 'warden01')) {
+                foundWarden = { nama: "Cikgu Mohd Razak bin Bujang", role: "Admin", loginid: username };
             }
 
-            if (foundWarden || username === 'admin' || username === 'warden01') {
-                currentUser = foundWarden || { nama: "Cikgu Mohd Razak", role: "Admin", loginid: username };
+            if (foundWarden) {
+                currentUser = foundWarden;
                 sessionStorage.setItem('smk_kanowit_user', JSON.stringify(currentUser));
                 initAppSession();
                 showToast(`Selamat datang, ${currentUser.nama || currentUser.name || 'Warden'}!`, 'success');
@@ -996,12 +990,13 @@
                 let sname = s.namapenuh || s.name || s.namapelajar;
                 let sclass = s.kelas || s.class;
                 let sroom = s.bilikasrama || s.bilik || '-';
+                let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
                 let st = statusMap[sid];
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center space-x-3">
-                        <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-9 h-9 rounded-full object-cover border border-slate-200">
+                        <img src="${simg}" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0 shadow-sm">
                         <div>
                             <span class="block font-semibold text-slate-800 text-sm">${sname}</span>
                             <span class="text-xs text-slate-500">${sclass}</span>
@@ -1034,7 +1029,7 @@
             let wardenObj = appData.wardens.find(w => (w.nama || w.name || "").toLowerCase() === wardenName.toLowerCase()) || appData.wardens[0] || { nama: wardenName, role: 'Warden', notelefon: '013-8887766', image: 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden' };
 
             container.innerHTML = `
-                <img src="${wardenObj.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mb-3">
+                <img src="${wardenObj.gambar || wardenObj.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mb-3">
                 <h4 class="font-bold text-slate-900 text-sm">${wardenObj.nama || wardenObj.name}</h4>
                 <p class="text-xs text-primary font-medium mt-0.5">${wardenObj.role || 'Warden'} Asrama</p>
                 <div class="mt-3 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
@@ -1183,14 +1178,14 @@
                 let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
                 let st = statusMap[sid] ? statusMap[sid].status : 'IN';
-                let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200 text-xs truncate max-w-[150px] px-2 py-1 rounded' : 'bg-red-100 text-red-700 border-red-200 text-xs truncate max-w-[150px] px-2 py-1 rounded';
+                let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
                 let badgeText = st === 'IN' ? 'DALAM ASRAMA' : 'SEDANG KELUAR';
 
                 let tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="py-3 px-4 flex items-center space-x-3">
-                        <img src="${simg}" class="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-sm shrink-0">
+                        <img src="${simg}" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0 shadow-sm">
                         <div>
                             <span class="block font-bold text-slate-900 text-sm">${sname}</span>
                             <span class="text-xs text-slate-500">${saddress}</span>
@@ -1305,7 +1300,7 @@
                 div.className = "p-3 bg-white hover:bg-blue-50 cursor-pointer rounded-xl border border-slate-200 transition flex items-center space-x-3";
                 div.onclick = () => selectStudentForMovement(sid);
                 div.innerHTML = `
-                    <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-9 h-9 rounded-full object-cover">
+                    <img src="${s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-9 h-9 rounded-lg object-cover shrink-0">
                     <div class="overflow-hidden">
                         <p class="text-xs font-bold text-slate-800 truncate">${sname}</p>
                         <p class="text-[10px] text-slate-500">${sclass} | ${sid}</p>
@@ -1320,16 +1315,17 @@
             if (!s) return;
             const statusMap = getLatestStudentStatuses();
             let st = statusMap[studentId] ? statusMap[studentId].status : 'IN';
-            let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200';
+            let badgeClass = st === 'IN' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-green-200';
             let badgeText = st === 'IN' ? 'DALAM ASRAMA (IN)' : 'DI LUAR (OUT)';
 
             let sname = s.namapenuh || s.name || s.namapelajar;
             let sclass = s.kelas || s.class;
             let sroom = s.bilikasrama || s.bilik || '-';
+            let simg = s.gambar || s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User';
 
             document.getElementById('movementSelectedDetails').innerHTML = `
                 <div class="flex items-center space-x-4 mb-6">
-                    <img src="${s.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=User'}" class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow">
+                    <img src="${simg}" class="w-20 h-20 rounded-2xl object-cover border-2 border-white shadow">
                     <div>
                         <span class="inline-block px-3 py-1 text-xs font-bold rounded-full border ${badgeClass} mb-1">${badgeText}</span>
                         <h3 class="text-lg font-bold text-slate-900">${sname}</h3>
@@ -1371,7 +1367,7 @@
                 tarikh: now.toISOString().split('T')[0],
                 status: status,
                 masa: now.toTimeString().substring(0, 5),
-                image: s.image || '',
+                image: s.gambar || s.image || '',
                 catatan: note
             };
 
@@ -1550,10 +1546,11 @@
                 let wname = w.nama || w.name;
                 let wphone = w.notelefon || w.phone || '-';
                 let wrole = w.role || 'Warden';
+                let wimg = w.gambar || w.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden';
                 let div = document.createElement('div');
                 div.className = "bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center";
                 div.innerHTML = `
-                    <img src="${w.image || 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden'}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow mb-3">
+                    <img src="${wimg}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow mb-3">
                     <h4 class="font-bold text-slate-900 text-sm">${wname}</h4>
                     <p class="text-xs text-primary font-medium mt-0.5">Role: ${wrole}</p>
                     <div class="mt-4 flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
@@ -1570,9 +1567,9 @@
             if (!tbody) return;
             tbody.innerHTML = '';
             appData.duty.forEach(d => {
-                let dname = d.namawarden || d.nama || d.namawarden;
-                let dstart = d.tarikhmula || d.start || d['Tarikh Mula'];
-                let dend = d.tarihkhtamat || d.end || d['Tarikh Tamat'];
+                let dname = d.namawarden || d.name || d.namawarden;
+                let dstart = d.tarikhmula || d.start;
+                let dend = d.tarihkhtamat || d.end;
                 let dstatus = d.status || 'Aktif';
 
                 let tr = document.createElement('tr');
