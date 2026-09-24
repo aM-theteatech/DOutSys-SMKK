@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dorm Outing System SMKK</title>
+    <title>Dormitory Management & Outing System (DMOS)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -43,10 +43,10 @@
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-full mb-4 border border-blue-100 shadow-inner overflow-hidden p-2">
                     <img src="DOutSys_images/logosmkk.png" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=SMKK'" class="w-full h-full object-contain">
                 </div>
-                <h1 class="text-2xl font-bold text-slate-900">Dorm Outing System (DOutSys)</h1>
+                <h1 class="text-2xl font-bold text-slate-900">Dormitory Management & Outing System (DMOS)</h1>
                 <p class="text-sm font-medium text-primary mt-1">SMK KANOWIT (YEA3302)</p>
                 <div id="modeBadge" class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
-                    <i class="fa-solid fa-circle-check mr-1"></i> LIVE GOOGLE SHEETS CONNECTED
+                    <i class="fa-solid fa-circle-check mr-1"></i> MAIN DATABASE CONNECTED
                 </div>
             </div>
 
@@ -92,10 +92,7 @@
                     <i class="fa-solid fa-gear"></i>
                     <span>Tetapan API</span>
                 </button>
-                <a href="https://docs.google.com/spreadsheets/d/1URlaUvkO08rzhzSyzgIJrXRQ45V7aPKluUqbXLu2vss/edit?usp=sharing" target="_blank" class="text-xs text-emerald-600 hover:underline font-medium flex items-center space-x-1">
-                    <i class="fa-solid fa-table"></i>
-                    <span>Buka Google Sheets</span>
-                </a>
+                
             </div>
         </div>
     </div>
@@ -110,7 +107,7 @@
                     <img src="DOutSys_images/logosmkk.png" onerror="this.src='https://placehold.co/150x150/1e3a8a/ffffff?text=SMKK'" class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-white tracking-wide">Dorm Outing SMKK</h2>
+                    <h2 class="text-sm font-bold text-white tracking-wide">Dormitory Management & Outing System (DMOS)</h2>
                     <p class="text-[10px] text-slate-400 font-medium uppercase">Asrama Pelajar</p>
                 </div>
             </div>
@@ -173,14 +170,14 @@
                     </button>
                     <div>
                         <h2 id="pageTitle" class="text-lg font-bold text-slate-800">Dashboard Utama</h2>
-                        <p class="text-xs text-slate-500 hidden sm:block">Dorm Outing System SMKK - SMK Kanowit</p>
+                        <p class="text-xs text-slate-500 hidden sm:block">Dormitory Management & Outing System (DMOS)</p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-3">
                     <div id="liveSyncBadge" class="hidden sm:flex items-center space-x-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium rounded-full">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span id="syncModeText">Live Google Sheets Sync</span>
+                        <span id="syncModeText">Live Database Sync</span>
                     </div>
 
                     <button onclick="fetchAllDataFromSheets()" title="Refresh Data" class="p-2.5 text-slate-600 hover:text-primary hover:bg-slate-100 rounded-xl transition flex items-center space-x-1 text-xs font-medium">
@@ -1025,7 +1022,7 @@
             const container = document.getElementById('dutyWardenContainer');
             if (!container) return;
             const dutyToday = appData.duty[0] || { namawarden: "Cikgu Duli Ninti", tarikhmula: "2026-10-12", tarihkhtamat: "2026-10-18" };
-            let wardenName = dutyToday.namawarden || dutyToday.name || "Cikgu Duli Ninti";
+            let wardenName = dutyToday.namawarden || dutyToday.nama || "Cikgu Duli Ninti";
             let wardenObj = appData.wardens.find(w => (w.nama || w.name || "").toLowerCase() === wardenName.toLowerCase()) || appData.wardens[0] || { nama: wardenName, role: 'Warden', notelefon: '013-8887766', image: 'https://placehold.co/150x150/1e3a8a/ffffff?text=Warden' };
 
             container.innerHTML = `
@@ -1568,8 +1565,8 @@
             tbody.innerHTML = '';
             appData.duty.forEach(d => {
                 let dname = d.namawarden || d.name || d.namawarden;
-                let dstart = d.tarikhmula || d.start;
-                let dend = d.tarihkhtamat || d.end;
+                let dstart = d.tarikhmula || d.start || d['Tarikh Mula'];
+                let dend = d.tarihkhtamat || d.end || d['Tarikh Tamat'];
                 let dstatus = d.status || 'Aktif';
 
                 let tr = document.createElement('tr');
